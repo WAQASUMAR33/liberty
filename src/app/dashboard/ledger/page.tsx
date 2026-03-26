@@ -241,9 +241,9 @@ export default function LedgerPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-end">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Customer Ledger</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Customer Ledger</h2>
                     <p className="text-foreground/60">Comprehensive financial history and balance tracking.</p>
                 </div>
                 <button

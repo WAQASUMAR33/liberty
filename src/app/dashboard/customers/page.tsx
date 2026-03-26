@@ -42,14 +42,14 @@ export default function CustomersPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-end">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Customers</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Customers</h2>
                     <p className="text-foreground/60">Relationship management and credit tracking.</p>
                 </div>
                 <button
                     onClick={() => { setEditingCustomer(null); setIsModalOpen(true); }}
-                    className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all"
+                    className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all self-start sm:self-auto"
                 >
                     <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
                     Add Customer

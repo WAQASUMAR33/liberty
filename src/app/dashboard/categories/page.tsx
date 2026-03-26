@@ -51,9 +51,9 @@ export default function CategoriesPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-end">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Categories</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Categories</h2>
                     <p className="text-foreground/60">Manage product categories.</p>
                 </div>
                 <button

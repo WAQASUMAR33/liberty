@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar, MobileNav } from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 
 export default function DashboardLayout({
@@ -24,13 +24,14 @@ export default function DashboardLayout({
         <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
             <Sidebar />
             <main className="flex-1 flex flex-col min-w-0 bg-white/50">
-                <header className="h-16 border-b border-black/5 glass flex items-center justify-between px-8 z-20">
-                    <div className="flex items-center gap-4">
-                        <h1 className="text-lg font-semibold text-foreground/80 lowercase tracking-widest">
+                <header className="h-16 border-b border-black/5 glass flex items-center justify-between px-4 md:px-8 z-20">
+                    <div className="flex items-center gap-3">
+                        <MobileNav />
+                        <h1 className="text-sm md:text-lg font-semibold text-foreground/80 lowercase tracking-widest">
                             / dashboard
                         </h1>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                         <div className="flex flex-col items-end">
                             <span className="text-sm font-bold">{user?.name || "Loading..."}</span>
                             <span className="text-[10px] text-foreground/40">{user?.role?.toLowerCase() || "..."}</span>
@@ -44,8 +45,7 @@ export default function DashboardLayout({
                         </div>
                     </div>
                 </header>
-                <div className="flex-1 overflow-y-auto p-8 relative">
-                    {/* Subtle noise pattern overlay */}
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 relative">
                     <div className="absolute inset-0 opacity-[0.015] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
                     <div className="relative z-10 max-w-7xl mx-auto">
                         {children}

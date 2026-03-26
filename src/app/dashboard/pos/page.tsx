@@ -604,7 +604,7 @@ function POSContent() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Point of Sale</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Point of Sale</h2>
                     <p className="text-foreground/60">Create new sales and manage billing</p>
                 </div>
                 <div className="flex bg-black/5 rounded-2xl p-1 border border-black/5">

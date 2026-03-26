@@ -13,7 +13,9 @@ import {
     Settings,
     LogOut,
     ShieldCheck,
-    Layers
+    Layers,
+    X,
+    Menu
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -30,14 +32,13 @@ const menuItems = [
     { icon: ShieldCheck, label: "Admin", href: "/dashboard/admin", adminOnly: true },
 ];
 
-export function Sidebar() {
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
     const pathname = usePathname();
     const router = useRouter();
     const [loggingOut, setLoggingOut] = useState(false);
 
     const handleLogout = async () => {
         if (loggingOut) return;
-
         setLoggingOut(true);
         try {
             await fetch("/api/auth/logout", { method: "POST" });
@@ -50,10 +51,10 @@ export function Sidebar() {
     };
 
     return (
-        <div className="flex flex-col h-full w-64 glass border-r border-black/5 text-foreground">
+        <div className="flex flex-col h-full text-foreground">
             <div className="p-6">
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl premium-gradient flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl premium-gradient flex items-center justify-center shrink-0">
                         <ShoppingCart className="w-6 h-6 text-white" />
                     </div>
                     <span className="text-xl font-bold tracking-tighter">Liberty Kollection</span>
@@ -64,6 +65,7 @@ export function Sidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onNavigate}
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group",
                                 pathname === item.href
@@ -72,7 +74,7 @@ export function Sidebar() {
                             )}
                         >
                             <item.icon className={cn(
-                                "w-5 h-5 transition-colors",
+                                "w-5 h-5 transition-colors shrink-0",
                                 pathname === item.href ? "text-primary" : "group-hover:text-foreground"
                             )} />
                             <span className="font-medium">{item.label}</span>
@@ -105,5 +107,50 @@ export function Sidebar() {
                 </button>
             </div>
         </div>
+    );
+}
+
+export function Sidebar() {
+    return (
+        <div className="hidden lg:flex flex-col h-full w-64 glass border-r border-black/5">
+            <SidebarContent />
+        </div>
+    );
+}
+
+export function MobileNav() {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <button
+                onClick={() => setOpen(true)}
+                className="lg:hidden p-2 rounded-xl hover:bg-black/5 transition-colors"
+            >
+                <Menu className="w-6 h-6" />
+            </button>
+
+            {/* Overlay */}
+            {open && (
+                <div
+                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+                    onClick={() => setOpen(false)}
+                />
+            )}
+
+            {/* Drawer */}
+            <div className={cn(
+                "fixed top-0 left-0 z-50 h-full w-72 glass border-r border-black/5 transform transition-transform duration-300 lg:hidden",
+                open ? "translate-x-0" : "-translate-x-full"
+            )}>
+                <button
+                    onClick={() => setOpen(false)}
+                    className="absolute top-4 right-4 p-2 rounded-xl hover:bg-black/5 transition-colors"
+                >
+                    <X className="w-5 h-5" />
+                </button>
+                <SidebarContent onNavigate={() => setOpen(false)} />
+            </div>
+        </>
     );
 }
