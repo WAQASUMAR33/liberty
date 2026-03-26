@@ -19,17 +19,7 @@ export async function GET(request: Request) {
                         contact: true,
                     },
                 },
-                items: {
-                    include: {
-                        product: {
-                            select: {
-                                id: true,
-                                code: true,
-                                name: true,
-                            },
-                        },
-                    },
-                },
+                items: true,
             },
             orderBy: { date: 'desc' },
         });
@@ -133,17 +123,7 @@ export async function POST(request: Request) {
                         contact: true,
                     },
                 },
-                items: {
-                    include: {
-                        product: {
-                            select: {
-                                id: true,
-                                code: true,
-                                name: true,
-                            },
-                        },
-                    },
-                },
+                items: true,
             },
         });
 

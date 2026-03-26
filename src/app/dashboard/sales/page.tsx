@@ -297,8 +297,7 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                                     {sale.items.map((item: any) => (
                                         <tr key={item.id}>
                                             <td className="px-4 py-3">
-                                                <p className="font-bold">{item.name || item.product?.name}</p>
-                                                <p className="text-xs text-foreground/40 font-mono">{item.product?.code}</p>
+                                                <p className="font-bold">{item.name}</p>
                                             </td>
                                             <td className="px-4 py-3 text-center">{item.quantity}</td>
                                             <td className="px-4 py-3 text-right">{formatCurrency(item.price)}</td>
