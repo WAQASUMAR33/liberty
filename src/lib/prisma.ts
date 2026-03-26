@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import fs from "fs";
-import path from "path";
 
-// Bootstrap DATABASE_URL from db-config.json if not already set
+// Bootstrap DATABASE_URL from db-config.json if not already set (local/Electron only)
 if (!process.env.DATABASE_URL) {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const fs = require("fs");
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const path = require("path");
         const configPath = path.join(process.env.CONFIG_DIR || process.cwd(), "db-config.json");
         if (fs.existsSync(configPath)) {
             const c = JSON.parse(fs.readFileSync(configPath, "utf8"));
@@ -12,7 +14,7 @@ if (!process.env.DATABASE_URL) {
             process.env.DATABASE_URL = `mysql://${c.username}${pass}@${c.server}:${c.port}/${c.database}`;
         }
     } catch {
-        // ignore — DATABASE_URL will remain unset and Prisma will error naturally
+        // ignore — on Vercel, DATABASE_URL must be set as an environment variable
     }
 }
 
