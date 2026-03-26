@@ -70,7 +70,7 @@ function POSContent() {
                     id: `${item.productId}-${Date.now()}-${Math.random()}`,
                     productId: item.productId,
                     code: item.product.code,
-                    name: item.product.name,
+                    name: item.name || item.product.name,
                     quantity: item.quantity,
                     price: Number(item.price),
                     itemDiscount: Number(item.discount),
