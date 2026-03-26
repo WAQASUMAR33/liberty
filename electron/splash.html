@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            user-select: none;
+        }
+        .logo img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 4px 16px rgba(59,130,246,0.4));
+        }
+        .tagline {
+            font-size: 12px;
+            color: #64748b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .loader {
+            width: 200px;
+            height: 3px;
+            background: #1e293b;
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .loader-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 99px;
+            animation: load 2s ease-in-out infinite;
+        }
+        @keyframes load {
+            0% { width: 0%; margin-left: 0; }
+            50% { width: 70%; margin-left: 15%; }
+            100% { width: 0%; margin-left: 100%; }
+        }
+        .status {
+            font-size: 12px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo"><img src="../public/logo1.png" alt="Liberty Kollection" /></div>
+    <div class="tagline">Point of Sale System</div>
+    <div class="loader"><div class="loader-bar"></div></div>
+    <div class="status">Starting application...</div>
+</body>
+</html>

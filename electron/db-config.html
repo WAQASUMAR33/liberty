@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Database Configuration</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            user-select: none;
+        }
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 32px;
+            width: 380px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        .logo-text h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+        .logo-text p {
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #334155;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+            flex: 1;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 13px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #3b82f6;
+        }
+        input::placeholder {
+            color: #475569;
+        }
+        .error {
+            background: #450a0a;
+            border: 1px solid #7f1d1d;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #fca5a5;
+            margin-bottom: 16px;
+            display: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .hint {
+            font-size: 11px;
+            color: #475569;
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">
+            <img src="../public/logo1.png" alt="Logo" onerror="this.style.display='none'" />
+            <div class="logo-text">
+                <h1>Liberty POS</h1>
+                <p>Point of Sale System</p>
+            </div>
+        </div>
+        <h2>MySQL Database Connection</h2>
+        <div class="error" id="error"></div>
+        <div class="form-row">
+            <div class="form-group" style="flex:2">
+                <label>Server IP / Host</label>
+                <input type="text" id="host" placeholder="e.g. 192.168.1.100" />
+            </div>
+            <div class="form-group" style="flex:1">
+                <label>Port</label>
+                <input type="text" id="port" placeholder="3306" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Database Name</label>
+            <input type="text" id="database" placeholder="liberty" />
+        </div>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="username" placeholder="root" />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Leave empty if no password" />
+        </div>
+        <button id="connectBtn" onclick="connect()">Connect & Start</button>
+        <p class="hint">Settings are saved and used on next startup automatically.</p>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const config = await window.electronAPI.getDbConfig();
+            if (config.host) document.getElementById('host').value = config.host;
+            if (config.port) document.getElementById('port').value = config.port;
+            if (config.database) document.getElementById('database').value = config.database;
+            if (config.username) document.getElementById('username').value = config.username;
+            if (config.password) document.getElementById('password').value = config.password;
+        });
+
+        async function connect() {
+            const host = document.getElementById('host').value.trim() || 'localhost';
+            const port = document.getElementById('port').value.trim() || '3306';
+            const database = document.getElementById('database').value.trim() || 'liberty';
+            const username = document.getElementById('username').value.trim() || 'root';
+            const password = document.getElementById('password').value;
+
+            const errorEl = document.getElementById('error');
+            const btn = document.getElementById('connectBtn');
+
+            errorEl.style.display = 'none';
+
+            if (!host) {
+                errorEl.textContent = 'Please enter a server IP or hostname.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Connecting...';
+
+            const result = await window.electronAPI.saveDbConfig({ host, port, database, username, password });
+
+            if (result.success) {
+                btn.textContent = 'Starting...';
+            } else {
+                errorEl.textContent = result.error || 'Failed to save configuration.';
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Connect & Start';
+            }
+        }
+    </script>
+</body>
+</html>
