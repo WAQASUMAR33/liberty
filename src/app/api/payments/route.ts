@@ -13,8 +13,8 @@ export async function GET(request: Request) {
         });
 
         return NextResponse.json(payments);
-    } catch (error) {
-        return NextResponse.json({ error: "Failed to fetch payments" }, { status: 500 });
+    } catch (error: any) {
+        return NextResponse.json({ error: error?.message ?? "Failed to fetch payments" }, { status: 500 });
     }
 }
 
