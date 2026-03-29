@@ -91,7 +91,7 @@ export async function POST(request: Request) {
             }
 
             // 5. Update Customer Balance
-            await tx.customer.update({
+            const updatedCustomer = await tx.customer.update({
                 where: { id: customerId },
                 data: { balance: { increment: balance } },
             });
@@ -104,13 +104,13 @@ export async function POST(request: Request) {
                     description: `Sale ${billNumber} (${type})`,
                     credit: balance > 0 ? balance : 0,
                     debit: paidAmount,
-                    balance: (await tx.customer.findUnique({ where: { id: customerId } }))?.balance || 0,
+                    balance: updatedCustomer.balance,
                     saleId: sale.id,
                 },
             });
 
             return sale;
-        });
+        }, { timeout: 15000 });
 
         // Fetch complete sale data with relations
         const completeSale = await prisma.sale.findUnique({

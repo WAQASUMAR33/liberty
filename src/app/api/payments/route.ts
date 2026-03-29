@@ -36,7 +36,7 @@ export async function POST(request: Request) {
             });
 
             // 2. Update Customer Balance (Decreasing since it's a payment received)
-            await tx.customer.update({
+            const updatedCustomer = await tx.customer.update({
                 where: { id: customerId },
                 data: { balance: { decrement: amount } },
             });
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
                     description: `Payment Received (${method}) - ${remarks || ''}`,
                     debit: amount,
                     credit: 0,
-                    balance: (await tx.customer.findUnique({ where: { id: customerId } }))?.balance || 0,
+                    balance: updatedCustomer.balance,
                     paymentId: payment.id,
                 },
             });
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
                 where: { id: payment.id },
                 include: { customer: true }
             });
-        });
+        }, { timeout: 15000 });
 
         return NextResponse.json(result);
     } catch (error: any) {
