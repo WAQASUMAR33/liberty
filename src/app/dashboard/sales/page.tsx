@@ -230,6 +230,217 @@ export default function SalesPage() {
     );
 }
 
+function reprintReceipt(sale: any) {
+    const totalItemDiscounts = sale.items.reduce((sum: number, item: any) => sum + (Number(item.discount) || 0), 0);
+    const billDiscountValue = Number(sale.discount) - totalItemDiscounts;
+    const subtotalAfterItemDiscounts = Number(sale.total) - totalItemDiscounts;
+    const billDiscountPercentage = subtotalAfterItemDiscounts > 0 ? (billDiscountValue / subtotalAfterItemDiscounts) * 100 : 0;
+
+    const printWindow = window.open('', '_blank', sale.type === 'WHOLESALE' ? 'width=800,height=1000' : 'width=300,height=600');
+    if (!printWindow) return;
+
+    if (sale.type === 'WHOLESALE') {
+        const getWords = (n: number) => {
+            if (n === 0) return "Zero";
+            const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+            const sr = (num: number, s: string) => {
+                let res = "";
+                if (num > 99) { res += ones[Math.floor(num / 100)] + " Hundred "; num %= 100; }
+                if (num > 19) { res += tens[Math.floor(num / 10)] + " "; num %= 10; }
+                if (num > 0) res += ones[num] + " ";
+                if (res !== "") res += s + " ";
+                return res;
+            };
+            let res = "";
+            res += sr(Math.floor(n / 1000000), "Million");
+            res += sr(Math.floor((n % 1000000) / 1000), "Thousand");
+            res += sr(n % 1000, "");
+            return res.trim() + " Rupees Only";
+        };
+
+        printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice - ${sale.billNumber}</title>
+    <style>
+        @page { size: A4; margin: 10mm; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 11px; color: black; margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; }
+        .container { padding: 20px; border: 1px solid #000; min-height: 275mm; position: relative; }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
+        .store-info h1 { font-size: 28px; margin: 0; font-weight: 800; letter-spacing: 1px; }
+        .store-info p { margin: 2px 0; font-size: 12px; }
+        .invoice-title-box { text-align: right; }
+        .invoice-title-box h2 { font-size: 22px; margin: 0; text-decoration: underline; letter-spacing: 2px; }
+        .customer-info { margin-bottom: 15px; font-size: 13px; }
+        .info-row { display: flex; margin-bottom: 4px; }
+        .info-label { width: 120px; font-weight: 500; }
+        .info-value { font-weight: 400; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th, td { border: 1px solid #000; padding: 8px; font-weight: 400; }
+        th { background: #f0f0f0 !important; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .footer-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; }
+        .footer-left { flex: 1; }
+        .footer-right { width: 320px; }
+        .sum-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; border-bottom: 1px solid #eee; }
+        .sum-row.grand { border-top: 2px solid #000; border-bottom: 2px solid #000; margin-top: 8px; padding: 8px 0; font-size: 18px; }
+        .urdu-note { font-size: 18px; font-weight: 800; text-align: right; margin: 15px 0; font-family: 'Urdu Typesetting', 'Jameel Noori Nastaleeq', Arial; }
+        .amount-words { font-size: 14px; font-weight: 800; text-decoration: underline; margin-top: 10px; }
+        .barcode-box { margin-top: 5px; font-size: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <img src="/libertycollection.png" alt="Logo" style="height: 100px;" />
+                <div class="store-info">
+                    <h1>Liberty Kollection</h1>
+                    <p>Chapai wali gali ,Committe Bazar , Mandi Bahauddin</p>
+                    <p>0345 5754717 | 0546-506717</p>
+                </div>
+            </div>
+            <div class="invoice-title-box">
+                <h2>SALE INVOICE</h2>
+                <div style="margin-top: 10px;">
+                    <div>Invoice #: <strong>${sale.billNumber}</strong></div>
+                    <div class="barcode-box">|||||||||||||||||||||||||</div>
+                    <div>Date: <strong>${new Date(sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                </div>
+            </div>
+        </div>
+        <div class="customer-info">
+            <div class="info-row"><span class="info-label">Customer Name:</span> <span class="info-value">${sale.customer?.name || 'Walk-in'}</span></div>
+            <div class="info-row"><span class="info-label">Operator:</span> <span class="info-value">Admin</span></div>
+            <div class="info-row"><span class="info-label">Location:</span> <span class="info-value">M.B.D</span></div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr. #</th>
+                    <th>Product Name</th>
+                    <th style="width: 15%;" class="text-right">Price</th>
+                    <th style="width: 10%;" class="text-center">Quantity</th>
+                    <th style="width: 15%;" class="text-right">Discount</th>
+                    <th style="width: 20%;" class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${sale.items.map((item: any, i: number) => `
+                    <tr>
+                        <td class="text-center">${i + 1}</td>
+                        <td>${item.name}</td>
+                        <td class="text-right">${Number(item.price).toFixed(2)}</td>
+                        <td class="text-center">${item.quantity}</td>
+                        <td class="text-right">${Number(item.discount || 0).toFixed(2)}</td>
+                        <td class="text-right">${(Number(item.price) * item.quantity - Number(item.discount || 0)).toFixed(2)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        <div class="footer-flex">
+            <div class="footer-left">
+                <div class="urdu-note" dir="rtl">نوٹ: امپورٹڈ، ایکسپائرڈ اور ٹوٹی ہوئی آئٹمز کی واپسی یا تبدیلی نہیں ہوگی۔</div>
+                <div class="amount-words">${getWords(Number(sale.netTotal))}</div>
+            </div>
+            <div class="footer-right">
+                <div class="sum-row"><span>Gross Amount:</span><strong>${subtotalAfterItemDiscounts.toLocaleString()}</strong></div>
+                <div class="sum-row"><span>Bill Discount:</span><strong>${billDiscountValue.toLocaleString()}</strong></div>
+                <div class="sum-row grand"><span>Total Bill Amount:</span><strong>${Number(sale.netTotal).toLocaleString()}</strong></div>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 10px; left: 20px; font-size: 10px; color: #666;">powered by RapidTechPro</div>
+    </div>
+    <script>window.onload = function() { window.print(); window.onafterprint = function() { window.close(); }; };</script>
+</body>
+</html>`);
+        printWindow.document.close();
+        return;
+    }
+
+    // Thermal receipt for RETAIL
+    printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt - ${sale.billNumber}</title>
+    <style>
+        @page { size: 80mm auto; margin: 5mm; }
+        body { font-family: 'Arial', 'Helvetica', sans-serif; font-size: 12px; line-height: 1.3; color: black; font-weight: bold; margin: 0; padding: 8px; background: white; }
+        * { color: black !important; font-weight: bold !important; }
+        .header { text-align: center; margin-bottom: 8px; }
+        .header h1 { font-size: 16px; margin: 0 0 2px 0; letter-spacing: 2px; }
+        .header p { margin: 0; font-size: 9px; }
+        .divider { border-top: 1px dashed black; margin: 6px 0; }
+        .divider-double { border-top: 3px double black; margin: 6px 0; }
+        .info-row { display: flex; justify-content: space-between; font-size: 9px; margin: 1px 0; }
+        .items-header { display: grid; grid-template-columns: 3fr 1fr 1.5fr 1.5fr 2fr; gap: 2px; font-size: 10px; margin: 6px 0 3px 0; text-transform: uppercase; }
+        .item { margin-bottom: 6px; font-size: 9px; }
+        .item-name { margin-bottom: 1px; }
+        .item-row { display: grid; grid-template-columns: 3fr 1fr 1.5fr 1.5fr 2fr; gap: 2px; font-size: 9px; }
+        .total-row { display: flex; justify-content: space-between; font-size: 10px; margin: 3px 0; }
+        .total-row.grand { font-size: 13px; margin: 6px 0; }
+        .footer { text-align: center; margin-top: 10px; font-size: 9px; }
+        .footer p { margin: 2px 0; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="${window.location.origin}/libertycollection.png" alt="Logo" style="height: 120px; margin-bottom: 5px;" />
+        <p>Chapai wali gali ,Committe Bazar , Mandi Bahauddin</p>
+        <p>0345 5754717 | 0546-506717</p>
+    </div>
+    <div class="divider"></div>
+    <div class="info-row"><span>Receipt #:</span><span>${sale.billNumber}</span></div>
+    <div class="info-row"><span>Date:</span><span>${new Date(sale.date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span></div>
+    <div class="info-row"><span>Customer:</span><span>${sale.customer?.name || 'Walk-in'}</span></div>
+    <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
+    <div class="divider"></div>
+    <div class="items-header">
+        <div>Item</div><div class="text-center">Qty</div><div class="text-right">Price</div><div class="text-right">Disc</div><div class="text-right">Total</div>
+    </div>
+    ${sale.items.map((item: any) => {
+        const itemTotal = Number(item.price) * Number(item.quantity);
+        const itemDiscount = Number(item.discount) || 0;
+        const itemAmount = itemTotal - itemDiscount;
+        return `<div class="item">
+            <div class="item-name">${item.name}</div>
+            <div class="item-row">
+                <div></div>
+                <div class="text-center">${item.quantity}</div>
+                <div class="text-right">${Number(item.price).toFixed(2)}</div>
+                <div class="text-right">${itemDiscount.toFixed(2)}</div>
+                <div class="text-right">${itemAmount.toFixed(2)}</div>
+            </div>
+        </div>`;
+    }).join('')}
+    <div class="divider"></div>
+    <div class="total-row"><span>Subtotal:</span><span>${subtotalAfterItemDiscounts.toFixed(2)}</span></div>
+    ${billDiscountValue > 0 ? `<div class="total-row"><span>Bill Disc (${billDiscountPercentage.toFixed(0)}%):</span><span>- ${billDiscountValue.toFixed(2)}</span></div>` : ''}
+    <div class="divider-double"></div>
+    <div class="total-row grand"><span>TOTAL:</span><span>${Number(sale.netTotal).toFixed(2)}</span></div>
+    <div class="divider-double"></div>
+    <div class="total-row"><span>Payment Method:</span><span>${Number(sale.paidAmount) >= Number(sale.netTotal) ? 'Cash' : 'Credit'}</span></div>
+    <div class="total-row"><span>Amount Received:</span><span>${Number(sale.paidAmount).toFixed(2)}</span></div>
+    ${Number(sale.balance) > 0 ? `<div class="total-row" style="color: #c00;"><span>Balance Due:</span><span>${Number(sale.balance).toFixed(2)}</span></div>` : ''}
+    <div class="divider"></div>
+    <div class="footer">
+        <p style="margin-bottom: 5px; line-height: 1.4;">No item can be returned after sale.<br>Items can be exchanged only within 3 days of purchase.<br>Receipt must be presented for exchange.</p>
+        <div class="divider"></div>
+        <p>For queries: 0345 5754717 | 0546-506717</p>
+        <p style="font-size: 7px; margin-top: 6px;">Powered By RapidTechPro</p>
+    </div>
+    <script>window.onload = function() { window.print(); window.onafterprint = function() { window.close(); }; };</script>
+</body>
+</html>`);
+    printWindow.document.close();
+}
+
 function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -340,12 +551,12 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-black/5 flex justify-end gap-3">
-                    <button 
-                        onClick={() => window.print()}
+                    <button
+                        onClick={() => reprintReceipt(sale)}
                         className="px-6 py-3 rounded-xl bg-black/5 hover:bg-black/10 font-bold flex items-center gap-2 transition-all"
                     >
                         <Printer className="w-4 h-4" />
-                        Print Invoice
+                        Reprint Receipt
                     </button>
                     <button 
                         onClick={onClose}
