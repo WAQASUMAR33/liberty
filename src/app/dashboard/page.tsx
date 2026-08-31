@@ -89,103 +89,32 @@ export default function Dashboard() {
 
     return (
         <div className="space-y-8 pb-12">
-            {/* Top Hero Banner */}
-            <div className="relative overflow-hidden rounded-3xl premium-gradient text-white p-6 sm:p-8 md:p-10 shadow-xl shadow-blue-500/10">
-                {/* Decorative background glow */}
-                <div className="absolute -right-10 -bottom-10 w-72 h-72 rounded-full bg-white/10 blur-3xl pointer-events-none" />
-                <div className="absolute left-1/3 -top-10 w-56 h-56 rounded-full bg-accent/20 blur-2xl pointer-events-none" />
-
-                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                    <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider">
-                            <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                            <span>Liberty Retail Suite</span>
-                        </div>
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">
-                            {getGreeting()},{" "}
-                            <span className="underline decoration-white/30 decoration-wavy">
-                                {user?.name || "Administrator"}
-                            </span>
-                            !
-                        </h1>
-                        <p className="text-white/80 text-sm sm:text-base max-w-xl font-medium">
-                            Here is the current operational status of your store, inventory, and sales today.
-                        </p>
-                    </div>
-
-                    {/* Action Shortcut Buttons */}
-                    <div className="flex flex-wrap items-center gap-3">
-                        <Link
-                            href="/dashboard/pos"
-                            className="px-5 py-3.5 rounded-2xl bg-white text-primary font-black text-sm shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
-                        >
-                            <ShoppingCart className="w-4 h-4 fill-primary text-primary" />
-                            <span>Launch POS</span>
-                        </Link>
-                        <button
-                            onClick={handleRefresh}
-                            disabled={refreshing}
-                            className="px-4 py-3.5 rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-bold text-sm transition-all flex items-center gap-2 border border-white/20 cursor-pointer disabled:opacity-50"
-                            title="Refresh statistics"
-                        >
-                            <RefreshCw className={cn("w-4 h-4", refreshing && "animate-spin")} />
-                            <span className="hidden sm:inline">Refresh</span>
-                        </button>
-                    </div>
+            {/* Page Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                        Overview
+                    </h2>
+                    <p className="text-foreground/60 text-sm mt-0.5">
+                        Real-time operational status, sales volume, and inventory metrics.
+                    </p>
                 </div>
-
-                {/* Quick Navigation Strip */}
-                <div className="relative z-10 mt-8 pt-6 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <Link
-                        href="/dashboard/products"
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all backdrop-blur-sm group"
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={handleRefresh}
+                        disabled={refreshing}
+                        className="px-4 py-2.5 rounded-xl glass border border-black/5 hover:bg-black/5 text-foreground/70 font-semibold text-xs transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        title="Refresh statistics"
                     >
-                        <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                            <Package className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                            <p className="text-xs font-bold truncate">Products</p>
-                            <p className="text-[11px] text-white/70">{stats.productCount || 0} items</p>
-                        </div>
-                    </Link>
-
+                        <RefreshCw className={cn("w-3.5 h-3.5", refreshing && "animate-spin")} />
+                        <span>Refresh</span>
+                    </button>
                     <Link
-                        href="/dashboard/brands"
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all backdrop-blur-sm group"
+                        href="/dashboard/pos"
+                        className="px-4 py-2.5 rounded-xl premium-gradient text-white font-bold text-xs shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center gap-2 cursor-pointer"
                     >
-                        <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                            <Tag className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                            <p className="text-xs font-bold truncate">Brands</p>
-                            <p className="text-[11px] text-white/70">{stats.brandCount || 0} brands</p>
-                        </div>
-                    </Link>
-
-                    <Link
-                        href="/dashboard/categories"
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all backdrop-blur-sm group"
-                    >
-                        <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                            <Layers className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                            <p className="text-xs font-bold truncate">Categories</p>
-                            <p className="text-[11px] text-white/70">{stats.categoryCount || 0} categories</p>
-                        </div>
-                    </Link>
-
-                    <Link
-                        href="/dashboard/customers"
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all backdrop-blur-sm group"
-                    >
-                        <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                            <Users className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                            <p className="text-xs font-bold truncate">Customers</p>
-                            <p className="text-[11px] text-white/70">{stats.customerCount || 0} accounts</p>
-                        </div>
+                        <ShoppingCart className="w-3.5 h-3.5" />
+                        <span>Open POS</span>
                     </Link>
                 </div>
             </div>
