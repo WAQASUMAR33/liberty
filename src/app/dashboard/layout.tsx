@@ -19,19 +19,29 @@ import {
     Tag,
     Sparkles,
     Calendar,
-    Search
+    Search,
+    Truck,
+    Building2,
+    BookMarked,
+    Receipt,
+    FileText
 } from "lucide-react";
 
 const pageMeta: Record<string, { label: string; icon: any; desc: string }> = {
     "/dashboard": { label: "Dashboard", icon: LayoutDashboard, desc: "Executive business summary" },
     "/dashboard/pos": { label: "POS / Billing", icon: ShoppingCart, desc: "Point of sale & invoicing" },
+    "/dashboard/purchases": { label: "Purchases (Stock In)", icon: Truck, desc: "Supplier stock-in & purchase bills" },
     "/dashboard/products": { label: "Products", icon: Package, desc: "Inventory & catalog" },
     "/dashboard/categories": { label: "Categories", icon: Layers, desc: "Product categorization" },
     "/dashboard/brands": { label: "Brands", icon: Tag, desc: "Manufacturer & brands" },
     "/dashboard/customers": { label: "Customers", icon: Users, desc: "Customer accounts & credits" },
-    "/dashboard/ledger": { label: "Ledger", icon: BookOpen, desc: "Financial audit & statements" },
-    "/dashboard/payments": { label: "Payments", icon: Wallet, desc: "Cash & credit logs" },
+    "/dashboard/ledger": { label: "Customer Ledger", icon: BookOpen, desc: "Customer financial audit & statements" },
+    "/dashboard/payments": { label: "Customer Payments", icon: Wallet, desc: "Cash & credit collection logs" },
+    "/dashboard/suppliers": { label: "Suppliers", icon: Building2, desc: "Supplier accounts & vendor management" },
+    "/dashboard/supplier-ledger": { label: "Supplier Ledger", icon: BookMarked, desc: "Supplier financial audit & statement" },
+    "/dashboard/expenses": { label: "Expense Management", icon: Receipt, desc: "Operating expenses & dynamic headers" },
     "/dashboard/sales": { label: "Sales History", icon: Printer, desc: "Invoices & receipts" },
+    "/dashboard/quotations": { label: "Quotations", icon: FileText, desc: "Price estimates & quotations" },
     "/dashboard/admin": { label: "Admin Control", icon: ShieldCheck, desc: "User management & system" },
 };
 

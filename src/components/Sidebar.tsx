@@ -20,7 +20,12 @@ import {
     Sparkles,
     Zap,
     ChevronRight,
-    Store
+    Store,
+    Truck,
+    Building2,
+    BookMarked,
+    Receipt,
+    FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -44,6 +49,7 @@ const menuSections: MenuSection[] = [
         items: [
             { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
             { icon: ShoppingCart, label: "POS / Billing", href: "/dashboard/pos", badge: "POS" },
+            { icon: Truck, label: "Purchases (Stock In)", href: "/dashboard/purchases", badge: "NEW" },
         ],
     },
     {
@@ -55,12 +61,16 @@ const menuSections: MenuSection[] = [
         ],
     },
     {
-        title: "FINANCE & SALES",
+        title: "FINANCE & ACCOUNTS",
         items: [
             { icon: Users, label: "Customers", href: "/dashboard/customers" },
-            { icon: BookOpen, label: "Ledger", href: "/dashboard/ledger" },
-            { icon: Wallet, label: "Payments", href: "/dashboard/payments" },
+            { icon: BookOpen, label: "Customer Ledger", href: "/dashboard/ledger" },
+            { icon: Wallet, label: "Customer Payments", href: "/dashboard/payments" },
+            { icon: Building2, label: "Suppliers", href: "/dashboard/suppliers" },
+            { icon: BookMarked, label: "Supplier Ledger", href: "/dashboard/supplier-ledger" },
+            { icon: Receipt, label: "Expenses", href: "/dashboard/expenses" },
             { icon: Printer, label: "Sales History", href: "/dashboard/sales" },
+            { icon: FileText, label: "Quotations", href: "/dashboard/quotations" },
         ],
     },
     {

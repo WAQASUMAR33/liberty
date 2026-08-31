@@ -36,9 +36,9 @@ model User {
 model Category {
   id        String    @id @default(cuid())
   name      String    @unique
-  products      Product[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Brand {
@@ -50,54 +50,55 @@ model Brand {
 }
 
 model Product {
-  id             String       @id @default(cuid())
-  code           String       @unique
-  name           String
-  costPrice      Decimal      @db.Decimal(10, 2)
-  wholesalePrice Decimal      @db.Decimal(10, 2)
-  retailPrice    Decimal      @db.Decimal(10, 2)
-  stock          Int          @default(0)
-  categoryId     String?
-  category       Category?    @relation(fields: [categoryId], references: [id])
-  brandId        String?
-  brand          Brand?       @relation(fields: [brandId], references: [id])
-  saleItems      SaleItem[]
+  id              String           @id @default(cuid())
+  code            String           @unique
+  name            String
+  costPrice       Decimal          @db.Decimal(10, 2)
+  wholesalePrice  Decimal          @db.Decimal(10, 2)
+  retailPrice     Decimal          @db.Decimal(10, 2)
+  stock           Int              @default(0)
+  categoryId      String?
+  category        Category?        @relation(fields: [categoryId], references: [id])
+  brandId         String?
+  brand           Brand?           @relation(fields: [brandId], references: [id])
+  saleItems       SaleItem[]
   saleReturnItems SaleReturnItem[]
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  purchaseItems   PurchaseItem[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model Customer {
-  id         String     @id @default(cuid())
-  name       String
-  contact    String
-  cnic       String?
-  balance    Decimal    @default(0) @db.Decimal(15, 2)
-  address    String?
-  sales      Sale[]
-  returns    SaleReturn[]
-  ledgers    Ledger[]
-  payments   Payment[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id        String       @id @default(cuid())
+  name      String
+  contact   String
+  cnic      String?
+  balance   Decimal      @default(0) @db.Decimal(15, 2)
+  address   String?
+  sales     Sale[]
+  returns   SaleReturn[]
+  ledgers   Ledger[]
+  payments  Payment[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 }
 
 model Sale {
-  id          String     @id @default(cuid())
-  billNumber  String     @unique
-  date        DateTime   @default(now())
-  type        BillType
-  customerId  String
-  customer    Customer   @relation(fields: [customerId], references: [id])
-  total       Decimal    @db.Decimal(15, 2)
-  discount    Decimal    @default(0) @db.Decimal(15, 2)
-  netTotal    Decimal    @db.Decimal(15, 2)
-  paidAmount  Decimal    @default(0) @db.Decimal(15, 2)
-  balance     Decimal    @default(0) @db.Decimal(15, 2)
-  items       SaleItem[]
-  returns     SaleReturn[]
-  ledgers     Ledger[]
-  createdAt   DateTime   @default(now())
+  id         String       @id @default(cuid())
+  billNumber String       @unique
+  date       DateTime     @default(now())
+  type       BillType
+  customerId String
+  customer   Customer     @relation(fields: [customerId], references: [id])
+  total      Decimal      @db.Decimal(15, 2)
+  discount   Decimal      @default(0) @db.Decimal(15, 2)
+  netTotal   Decimal      @db.Decimal(15, 2)
+  paidAmount Decimal      @default(0) @db.Decimal(15, 2)
+  balance    Decimal      @default(0) @db.Decimal(15, 2)
+  items      SaleItem[]
+  returns    SaleReturn[]
+  ledgers    Ledger[]
+  createdAt  DateTime     @default(now())
 }
 
 model SaleItem {
@@ -172,4 +173,112 @@ model Payment {
   customer    Customer    @relation(fields: [customerId], references: [id])
   ledgers     Ledger[]
   createdAt   DateTime    @default(now())
+}
+
+// ==========================================
+// SUPPLIERS & PURCHASES (STOCK IN)
+// ==========================================
+
+model Supplier {
+  id          String            @id @default(cuid())
+  name        String
+  companyName String?
+  contact     String
+  email       String?
+  address     String?
+  cnic        String?
+  balance     Decimal           @default(0) @db.Decimal(15, 2) // Current payable amount to supplier
+  purchases   Purchase[]
+  ledgers     SupplierLedger[]
+  payments    SupplierPayment[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model Purchase {
+  id            String           @id @default(cuid())
+  invoiceNumber String           @unique
+  date          DateTime         @default(now())
+  supplierId    String
+  supplier      Supplier         @relation(fields: [supplierId], references: [id])
+  total         Decimal          @db.Decimal(15, 2)
+  discount      Decimal          @default(0) @db.Decimal(15, 2)
+  netTotal      Decimal          @db.Decimal(15, 2)
+  paidAmount    Decimal          @default(0) @db.Decimal(15, 2)
+  balance       Decimal          @default(0) @db.Decimal(15, 2)
+  notes         String?
+  items         PurchaseItem[]
+  ledgers       SupplierLedger[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model PurchaseItem {
+  id          String   @id @default(cuid())
+  purchaseId  String
+  purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  name        String   @default("")
+  quantity    Int
+  costPrice   Decimal  @db.Decimal(10, 2)
+  retailPrice Decimal? @db.Decimal(10, 2)
+  subtotal    Decimal  @db.Decimal(15, 2)
+}
+
+model SupplierLedger {
+  id          String           @id @default(cuid())
+  supplierId  String
+  supplier    Supplier         @relation(fields: [supplierId], references: [id])
+  date        DateTime         @default(now())
+  description String
+  debit       Decimal          @default(0) @db.Decimal(15, 2) // Payment to supplier (reduces payable)
+  credit      Decimal          @default(0) @db.Decimal(15, 2) // Purchase bill (increases payable)
+  balance     Decimal          @db.Decimal(15, 2)
+  purchaseId  String?
+  purchase    Purchase?        @relation(fields: [purchaseId], references: [id])
+  paymentId   String?
+  payment     SupplierPayment? @relation(fields: [paymentId], references: [id])
+  createdAt   DateTime         @default(now())
+}
+
+model SupplierPayment {
+  id          String           @id @default(cuid())
+  supplierId  String
+  supplier    Supplier         @relation(fields: [supplierId], references: [id])
+  amount      Decimal          @db.Decimal(15, 2)
+  date        DateTime         @default(now())
+  method      String?          @default("CASH")
+  remarks     String?
+  description String?
+  ledgers     SupplierLedger[]
+  createdAt   DateTime         @default(now())
+}
+
+// ==========================================
+// EXPENSE MANAGEMENT WITH DYNAMIC HEADERS
+// ==========================================
+
+model ExpenseCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique // E.g., Rent, Utilities, Salaries, Tea/Refreshments, Transportation, Maintenance, Packaging
+  description String?
+  expenses    Expense[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Expense {
+  id            String          @id @default(cuid())
+  voucherNumber String          @unique
+  categoryId    String
+  category      ExpenseCategory @relation(fields: [categoryId], references: [id])
+  title         String
+  amount        Decimal         @db.Decimal(15, 2)
+  date          DateTime        @default(now())
+  paymentMethod String          @default("CASH") // CASH, BANK, ONLINE, CHEQUE
+  paidTo        String?
+  notes         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
