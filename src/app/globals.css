@@ -20,6 +20,18 @@
 
   --color-border: #e2e8f0;
   --color-input: #f1f5f9;
+
+  /* Global zero radius for all rounded utilities */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  --radius-full: 0px;
+  --radius: 0px;
 }
 
 :root {
@@ -27,8 +39,9 @@
   --foreground: #0f172a;
 }
 
-* {
+*, ::before, ::after {
   border-color: var(--color-border);
+  border-radius: 0px !important;
 }
 
 body {
@@ -46,6 +59,7 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border-radius: 0px !important;
   }
 
   .glow-text {
@@ -76,12 +90,12 @@ body {
 
   .custom-scrollbar::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.02);
-    border-radius: 10px;
+    border-radius: 0px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(37, 99, 235, 0.3);
-    border-radius: 10px;
+    border-radius: 0px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
