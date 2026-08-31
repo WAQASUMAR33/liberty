@@ -100,7 +100,7 @@ export default function DashboardLayout({
                     <div className="flex items-center gap-3.5 min-w-0">
                         <MobileNav />
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 hidden sm:flex">
+                            <div className="w-10 h-10 rounded-none-none bg-primary/10 text-primary flex items-center justify-center shrink-0 hidden sm:flex">
                                 <PageIcon className="w-5 h-5" />
                             </div>
                             <div className="flex flex-col">
@@ -122,8 +122,8 @@ export default function DashboardLayout({
                     {/* Right: Real-time Date/Time & Quick Links & Profile */}
                     <div className="flex items-center gap-3 sm:gap-4">
                         {/* Live Clock & Date */}
-                        <div className="hidden lg:flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white border border-black/5 shadow-xs">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                        <div className="hidden lg:flex items-center gap-2.5 px-3.5 py-2 rounded-none-none bg-white border border-black/5 shadow-xs">
+                            <span className="w-2 h-2 rounded-none-none bg-emerald-500 animate-ping" />
                             <div className="flex items-center gap-2 text-xs font-bold text-foreground/70">
                                 <span>{currentDate}</span>
                                 <span className="text-foreground/30">•</span>
@@ -135,7 +135,7 @@ export default function DashboardLayout({
                         {pathname !== "/dashboard/pos" && (
                             <Link
                                 href="/dashboard/pos"
-                                className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-2xl premium-gradient text-white text-xs font-bold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                                className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-none-none premium-gradient text-white text-xs font-bold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                             >
                                 <ShoppingCart className="w-4 h-4" />
                                 <span>New Sale (POS)</span>
@@ -148,12 +148,12 @@ export default function DashboardLayout({
                                 <span className="text-xs font-extrabold text-foreground leading-tight">
                                     {user?.name || "Loading..."}
                                 </span>
-                                <span className="text-[10px] font-black uppercase tracking-wider text-primary bg-primary/10 px-1.5 py-0.2 rounded mt-0.5">
+                                <span className="text-[10px] font-black uppercase tracking-wider text-primary bg-primary/10 px-1.5 py-0.2 rounded-none mt-0.5">
                                     {user?.role || "CASHIER"}
                                 </span>
                             </div>
-                            <div className="w-10 h-10 rounded-2xl premium-gradient p-[1.5px] shadow-sm shrink-0">
-                                <div className="w-full h-full rounded-2xl bg-white flex items-center justify-center overflow-hidden">
+                            <div className="w-10 h-10 rounded-none-none premium-gradient p-[1.5px] shadow-sm shrink-0">
+                                <div className="w-full h-full rounded-none-none bg-white flex items-center justify-center overflow-hidden">
                                     <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-black text-sm">
                                         {user?.name?.[0]?.toUpperCase() || "U"}
                                     </div>

@@ -108,9 +108,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                 <Link
                     href="/dashboard"
                     onClick={onNavigate}
-                    className="flex items-center gap-3.5 p-2 rounded-2xl hover:bg-black/[0.03] transition-all group"
+                    className="flex items-center gap-3.5 p-2 rounded-none-none hover:bg-black/[0.03] transition-all group"
                 >
-                    <div className="w-11 h-11 rounded-2xl premium-gradient flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                    <div className="w-11 h-11 rounded-none-none premium-gradient flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
                         <Store className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex flex-col">
@@ -118,7 +118,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                             Liberty Kollection
                         </span>
                         <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="w-2 h-2 rounded-none-none bg-emerald-500 animate-pulse" />
                             <span className="text-[11px] font-semibold text-foreground/50 tracking-wide uppercase">
                                 POS Terminal
                             </span>
@@ -132,7 +132,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                 <Link
                     href="/dashboard/pos"
                     onClick={onNavigate}
-                    className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-primary to-accent text-white font-bold text-sm flex items-center justify-between shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all group"
+                    className="w-full py-3 px-4 rounded-none-none bg-gradient-to-r from-primary to-accent text-white font-bold text-sm flex items-center justify-between shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all group"
                 >
                     <div className="flex items-center gap-2.5">
                         <Zap className="w-4 h-4 fill-white text-white group-hover:rotate-12 transition-transform" />
@@ -167,7 +167,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                                         href={item.href}
                                         onClick={onNavigate}
                                         className={cn(
-                                            "relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group",
+                                            "relative flex items-center justify-between px-3.5 py-2.5 rounded-none-none text-sm font-semibold transition-all duration-200 group",
                                             isActive
                                                 ? "bg-primary/10 text-primary font-bold shadow-sm shadow-primary/5"
                                                 : "text-foreground/60 hover:text-foreground hover:bg-black/[0.03]"
@@ -176,7 +176,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                                         <div className="flex items-center gap-3">
                                             <div
                                                 className={cn(
-                                                    "p-1.5 rounded-lg transition-colors",
+                                                    "p-1.5 rounded-none-none transition-colors",
                                                     isActive
                                                         ? "bg-primary text-white shadow-sm"
                                                         : "bg-transparent text-foreground/50 group-hover:text-foreground group-hover:bg-black/5"
@@ -190,7 +190,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                                         {item.badge && (
                                             <span
                                                 className={cn(
-                                                    "text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider",
+                                                    "text-[10px] font-extrabold px-2 py-0.5 rounded-none-none uppercase tracking-wider",
                                                     isActive
                                                         ? "bg-primary text-white"
                                                         : "bg-primary/10 text-primary"
@@ -201,7 +201,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                                         )}
 
                                         {isActive && (
-                                            <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-primary rounded-l-full" />
+                                            <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-primary rounded-none-none" />
                                         )}
                                     </Link>
                                 );
@@ -213,16 +213,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
             {/* Sidebar User Footer */}
             <div className="p-4 border-t border-black/5 bg-black/[0.01]">
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-white border border-black/5 shadow-xs mb-2">
+                <div className="flex items-center justify-between p-2.5 rounded-none-none bg-white border border-black/5 shadow-xs mb-2">
                     <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-9 h-9 rounded-xl premium-gradient flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm">
+                        <div className="w-9 h-9 rounded-none-none premium-gradient flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm">
                             {user?.name?.[0]?.toUpperCase() || "U"}
                         </div>
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-bold text-foreground truncate leading-tight">
                                 {user?.name || "System User"}
                             </p>
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary mt-0.5">
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-none text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary mt-0.5">
                                 {user?.role || "CASHIER"}
                             </span>
                         </div>
@@ -232,11 +232,11 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                 <button
                     onClick={handleLogout}
                     disabled={loggingOut}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all cursor-pointer disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-none-none text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all cursor-pointer disabled:opacity-50"
                 >
                     {loggingOut ? (
                         <>
-                            <div className="w-3.5 h-3.5 border-2 border-red-500/20 border-t-red-500 rounded-full animate-spin" />
+                            <div className="w-3.5 h-3.5 border-2 border-red-500/20 border-t-red-500 rounded-none-none animate-spin" />
                             <span>Signing out...</span>
                         </>
                     ) : (
@@ -266,7 +266,7 @@ export function MobileNav() {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="lg:hidden p-2.5 rounded-2xl bg-black/5 hover:bg-black/10 text-foreground transition-colors cursor-pointer"
+                className="lg:hidden p-2.5 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground transition-colors cursor-pointer"
                 title="Open Navigation"
             >
                 <Menu className="w-5 h-5" />
@@ -289,7 +289,7 @@ export function MobileNav() {
             >
                 <button
                     onClick={() => setOpen(false)}
-                    className="absolute top-4 right-4 p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground transition-colors z-10 cursor-pointer"
+                    className="absolute top-4 right-4 p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground transition-colors z-10 cursor-pointer"
                     title="Close Navigation"
                 >
                     <X className="w-5 h-5" />

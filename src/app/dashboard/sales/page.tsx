@@ -69,7 +69,7 @@ export default function SalesPage() {
             </div>
 
             {/* Filters */}
-            <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm">
                 <h3 className="text-sm font-bold mb-4 flex items-center gap-2 text-foreground/60 uppercase tracking-widest">
                     <Search className="w-4 h-4" />
                     Filters
@@ -81,7 +81,7 @@ export default function SalesPage() {
                         <input
                             type="text"
                             placeholder="Bill # or Customer..."
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -91,7 +91,7 @@ export default function SalesPage() {
                     <div>
                         <label className="text-xs font-bold text-foreground/40 uppercase tracking-widest block mb-2">Customer</label>
                         <select
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
                             value={selectedCustomer}
                             onChange={(e) => setSelectedCustomer(e.target.value)}
                         >
@@ -107,7 +107,7 @@ export default function SalesPage() {
                         <label className="text-xs font-bold text-foreground/40 uppercase tracking-widest block mb-2">Start Date</label>
                         <input
                             type="date"
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
                         />
@@ -118,7 +118,7 @@ export default function SalesPage() {
                         <label className="text-xs font-bold text-foreground/40 uppercase tracking-widest block mb-2">End Date</label>
                         <input
                             type="date"
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-medium"
                             value={endDate}
                             onChange={(e) => setEndDate(e.target.value)}
                         />
@@ -128,7 +128,7 @@ export default function SalesPage() {
 
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm">
+                <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-bold text-foreground/60 uppercase tracking-widest">Total Sales</span>
                         <FileText className="w-5 h-5 text-primary" />
@@ -137,7 +137,7 @@ export default function SalesPage() {
                     <p className="text-xs text-foreground/40 mt-1">{filteredSales.length} transactions</p>
                 </div>
 
-                <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm">
+                <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-bold text-foreground/60 uppercase tracking-widest">Total Paid</span>
                         <FileText className="w-5 h-5 text-green-600" />
@@ -145,7 +145,7 @@ export default function SalesPage() {
                     <p className="text-3xl font-black text-green-600">{formatCurrency(totalPaid)}</p>
                 </div>
 
-                <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm">
+                <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-bold text-foreground/60 uppercase tracking-widest">Total Balance</span>
                         <FileText className="w-5 h-5 text-red-600" />
@@ -155,7 +155,7 @@ export default function SalesPage() {
             </div>
 
             {/* Sales Table */}
-            <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -175,7 +175,7 @@ export default function SalesPage() {
                                 <tr>
                                     <td colSpan={8} className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center gap-4">
-                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-none-none animate-spin" />
                                             <p className="text-foreground/40 font-medium">Loading sales...</p>
                                         </div>
                                     </td>
@@ -192,7 +192,7 @@ export default function SalesPage() {
                                     <td className="px-6 py-4 text-sm">{new Date(sale.date).toLocaleDateString()}</td>
                                     <td className="px-6 py-4 font-medium">{sale.customer?.name || 'N/A'}</td>
                                     <td className="px-6 py-4">
-                                        <span className={`px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest ${sale.type === 'WHOLESALE'
+                                        <span className={`px-3 py-1 rounded-none-none text-xs font-black uppercase tracking-widest ${sale.type === 'WHOLESALE'
                                                 ? 'bg-purple-500/10 text-purple-600 border border-purple-500/20'
                                                 : 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
                                             }`}>
@@ -205,7 +205,7 @@ export default function SalesPage() {
                                     <td className="px-6 py-4 text-center">
                                         <button
                                             onClick={() => setSelectedSale(sale)}
-                                            className="p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
+                                            className="p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
                                             title="View Details"
                                         >
                                             <Eye className="w-4 h-4" />
@@ -455,21 +455,21 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-3xl rounded-3xl glass border border-black/5 p-8 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col"
+                className="relative w-full max-w-3xl rounded-none-none glass border border-black/5 p-8 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col"
             >
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h3 className="text-2xl font-bold">Sale Details</h3>
                         <p className="text-foreground/60">{sale.billNumber}</p>
                     </div>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-black/5 transition-colors">
+                    <button onClick={onClose} className="p-2 rounded-none-none hover:bg-black/5 transition-colors">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto pr-2 space-y-6">
                     {/* Header Info */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-black/5">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-none-none bg-black/5">
                         <div>
                             <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Date</p>
                             <p className="font-bold">{new Date(sale.date).toLocaleDateString()}</p>
@@ -493,7 +493,7 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                     {/* Items Table */}
                     <div>
                         <h4 className="font-bold mb-4">Items</h4>
-                        <div className="rounded-xl border border-black/5 overflow-hidden">
+                        <div className="rounded-none-none border border-black/5 overflow-hidden">
                             <table className="w-full text-left text-sm">
                                 <thead className="bg-black/5">
                                     <tr>
@@ -553,14 +553,14 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                 <div className="mt-6 pt-6 border-t border-black/5 flex justify-end gap-3">
                     <button
                         onClick={() => reprintReceipt(sale)}
-                        className="px-6 py-3 rounded-xl bg-black/5 hover:bg-black/10 font-bold flex items-center gap-2 transition-all"
+                        className="px-6 py-3 rounded-none-none bg-black/5 hover:bg-black/10 font-bold flex items-center gap-2 transition-all"
                     >
                         <Printer className="w-4 h-4" />
                         Reprint Receipt
                     </button>
                     <button 
                         onClick={onClose}
-                        className="px-6 py-3 rounded-xl premium-gradient text-white font-bold hover:shadow-lg transition-all"
+                        className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold hover:shadow-lg transition-all"
                     >
                         Close
                     </button>

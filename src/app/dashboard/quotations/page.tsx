@@ -59,7 +59,7 @@ export default function QuotationsPage() {
                 </div>
             </div>
 
-            <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm">
                 <div className="flex items-center gap-4">
                     <Search className="w-5 h-5 text-foreground/40" />
                     <input
@@ -72,7 +72,7 @@ export default function QuotationsPage() {
                 </div>
             </div>
 
-            <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -103,14 +103,14 @@ export default function QuotationsPage() {
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => handleOpenInPOS(q.id)}
-                                                className="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                                                className="p-2 rounded-none-none bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                                                 title="Open in POS"
                                             >
                                                 <ShoppingCart className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(q.id)}
-                                                className="p-2 rounded-lg bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-colors"
+                                                className="p-2 rounded-none-none bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-colors"
                                                 title="Delete"
                                             >
                                                 <Trash2 className="w-4 h-4" />

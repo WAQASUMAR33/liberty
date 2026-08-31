@@ -31,7 +31,7 @@ export default function POSPage() {
     return (
         <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-[70vh] gap-3">
-                <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-none-none animate-spin" />
                 <p className="text-sm font-semibold text-foreground/50">Loading Point of Sale...</p>
             </div>
         }>
@@ -733,9 +733,9 @@ function POSContent() {
     return (
         <div className="space-y-6">
             {/* Top Bar Navigation & Mode Toggles */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/40 backdrop-blur-xl p-4 rounded-3xl border border-black/5 shadow-sm">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/40 backdrop-blur-xl p-4 rounded-none-none border border-black/5 shadow-sm">
                 <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-2xl bg-primary/10 text-primary">
+                    <div className="p-3 rounded-none-none bg-primary/10 text-primary">
                         <ShoppingCart className="w-6 h-6" />
                     </div>
                     <div>
@@ -746,11 +746,11 @@ function POSContent() {
 
                 <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                     {/* Primary Mode Tabs */}
-                    <div className="flex bg-black/5 p-1 rounded-2xl border border-black/5 flex-1 md:flex-initial">
+                    <div className="flex bg-black/5 p-1 rounded-none-none border border-black/5 flex-1 md:flex-initial">
                         <button
                             onClick={() => setActiveMode("SALE")}
                             className={cn(
-                                "flex-1 md:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2",
+                                "flex-1 md:flex-initial px-4 py-2 rounded-none-none text-xs font-bold transition-all flex items-center justify-center gap-2",
                                 activeMode === "SALE" ? "bg-primary text-white shadow-md" : "text-foreground/60 hover:text-foreground"
                             )}
                         >
@@ -760,7 +760,7 @@ function POSContent() {
                         <button
                             onClick={() => setActiveMode("QUOTATION")}
                             className={cn(
-                                "flex-1 md:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2",
+                                "flex-1 md:flex-initial px-4 py-2 rounded-none-none text-xs font-bold transition-all flex items-center justify-center gap-2",
                                 activeMode === "QUOTATION" ? "bg-amber-600 text-white shadow-md" : "text-foreground/60 hover:text-foreground"
                             )}
                         >
@@ -770,7 +770,7 @@ function POSContent() {
                         <button
                             onClick={() => setActiveMode("RETURN")}
                             className={cn(
-                                "flex-1 md:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2",
+                                "flex-1 md:flex-initial px-4 py-2 rounded-none-none text-xs font-bold transition-all flex items-center justify-center gap-2",
                                 activeMode === "RETURN" ? "bg-red-600 text-white shadow-md" : "text-foreground/60 hover:text-foreground"
                             )}
                         >
@@ -781,11 +781,11 @@ function POSContent() {
 
                     {/* Retail / Wholesale toggle (Only for SALE mode) */}
                     {activeMode === "SALE" && (
-                        <div className="flex bg-black/5 p-1 rounded-2xl border border-black/5">
+                        <div className="flex bg-black/5 p-1 rounded-none-none border border-black/5">
                             <button
                                 onClick={() => setBillType("RETAIL")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                                    "px-3 py-1.5 rounded-none-none text-xs font-bold transition-all",
                                     billType === "RETAIL" ? "bg-slate-800 text-white shadow-sm" : "text-foreground/50 hover:text-foreground"
                                 )}
                             >
@@ -794,7 +794,7 @@ function POSContent() {
                             <button
                                 onClick={() => setBillType("WHOLESALE")}
                                 className={cn(
-                                    "px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                                    "px-3 py-1.5 rounded-none-none text-xs font-bold transition-all",
                                     billType === "WHOLESALE" ? "bg-purple-700 text-white shadow-sm" : "text-foreground/50 hover:text-foreground"
                                 )}
                             >
@@ -812,7 +812,7 @@ function POSContent() {
                     {/* Return Selection Column */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Invoice Lookup Card */}
-                        <div className="rounded-3xl glass border border-red-500/10 bg-red-500/[0.01] p-6 shadow-sm">
+                        <div className="rounded-none-none glass border border-red-500/10 bg-red-500/[0.01] p-6 shadow-sm">
                             <h3 className="text-sm font-bold text-red-600 uppercase tracking-widest mb-4 flex items-center gap-2">
                                 <RotateCcw className="w-4 h-4" />
                                 Lookup Invoice for Return
@@ -824,7 +824,7 @@ function POSContent() {
                                     <input
                                         type="text"
                                         placeholder="Enter Bill Number e.g. INV-000001"
-                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-black/5 border border-black/10 focus:outline-none focus:border-red-500 font-bold"
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-none-none bg-black/5 border border-black/10 focus:outline-none focus:border-red-500 font-bold"
                                         value={invoiceSearchQuery}
                                         onChange={(e) => setInvoiceSearchQuery(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleSearchInvoice()}
@@ -833,10 +833,10 @@ function POSContent() {
                                 <button
                                     onClick={handleSearchInvoice}
                                     disabled={isSearchingInvoice || !invoiceSearchQuery.trim()}
-                                    className="px-6 py-3.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all flex items-center gap-2 disabled:opacity-50"
+                                    className="px-6 py-3.5 rounded-none-none bg-red-600 hover:bg-red-700 text-white font-bold transition-all flex items-center gap-2 disabled:opacity-50"
                                 >
                                     {isSearchingInvoice ? (
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-none-none animate-spin" />
                                     ) : (
                                         <Search className="w-4 h-4" />
                                     )}
@@ -846,14 +846,14 @@ function POSContent() {
                         </div>
 
                         {/* Return Items Selection Table */}
-                        <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+                        <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                             <div className="p-4 border-b border-black/5 bg-black/[0.02] flex justify-between items-center">
                                 <h3 className="font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                                     <Box className="w-4 h-4 text-red-600" />
                                     Select Items to Return
                                 </h3>
                                 {foundInvoice && (
-                                    <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-red-500/10 text-red-600">
+                                    <span className="text-xs font-mono font-bold px-3 py-1 rounded-none-none bg-red-500/10 text-red-600">
                                         Bill #{foundInvoice.billNumber}
                                     </span>
                                 )}
@@ -890,10 +890,10 @@ function POSContent() {
                                                         {item.originalQty}
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <div className="inline-flex items-center gap-2 bg-black/5 rounded-xl p-1 border border-black/5">
+                                                        <div className="inline-flex items-center gap-2 bg-black/5 rounded-none-none p-1 border border-black/5">
                                                             <button
                                                                 onClick={() => updateReturnQuantity(item.productId, item.returnQty - 1)}
-                                                                className="w-7 h-7 rounded-lg bg-white flex items-center justify-center font-bold shadow-sm hover:bg-black/5"
+                                                                className="w-7 h-7 rounded-none-none bg-white flex items-center justify-center font-bold shadow-sm hover:bg-black/5"
                                                             >
                                                                 -
                                                             </button>
@@ -907,7 +907,7 @@ function POSContent() {
                                                             />
                                                             <button
                                                                 onClick={() => updateReturnQuantity(item.productId, item.returnQty + 1)}
-                                                                className="w-7 h-7 rounded-lg bg-white flex items-center justify-center font-bold shadow-sm hover:bg-black/5"
+                                                                className="w-7 h-7 rounded-none-none bg-white flex items-center justify-center font-bold shadow-sm hover:bg-black/5"
                                                             >
                                                                 +
                                                             </button>
@@ -928,7 +928,7 @@ function POSContent() {
                     {/* Return Summary & Payout Column */}
                     <div className="space-y-6">
                         {/* Customer Panel */}
-                        <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm space-y-3">
+                        <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm space-y-3">
                             <label className="text-xs font-bold text-foreground/50 uppercase tracking-widest block">
                                 Customer Account
                             </label>
@@ -937,7 +937,7 @@ function POSContent() {
                                 <input
                                     type="text"
                                     placeholder="Search customer..."
-                                    className="w-full pl-12 pr-4 py-3 rounded-2xl bg-black/5 border border-black/5 focus:outline-none focus:border-red-500 font-bold"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-red-500 font-bold"
                                     value={customerSearch}
                                     onChange={(e) => {
                                         setCustomerSearch(e.target.value);
@@ -946,7 +946,7 @@ function POSContent() {
                                     onFocus={() => setShowCustomerDropdown(true)}
                                 />
                                 {showCustomerDropdown && (
-                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-black/10 max-h-48 overflow-y-auto divide-y divide-black/5">
+                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-none-none shadow-xl border border-black/10 max-h-48 overflow-y-auto divide-y divide-black/5">
                                         {filteredCustomers.map(c => (
                                             <div
                                                 key={c.id}
@@ -971,7 +971,7 @@ function POSContent() {
                             </div>
 
                             {selectedCustomer && (
-                                <div className="p-3 rounded-2xl bg-red-500/5 border border-red-500/10 flex justify-between items-center">
+                                <div className="p-3 rounded-none-none bg-red-500/5 border border-red-500/10 flex justify-between items-center">
                                     <div>
                                         <p className="text-xs text-foreground/50 font-bold uppercase">Selected Customer</p>
                                         <p className="font-black text-sm">{selectedCustomer.name}</p>
@@ -985,7 +985,7 @@ function POSContent() {
                         </div>
 
                         {/* Payout Options & Complete Return */}
-                        <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm space-y-4">
+                        <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm space-y-4">
                             <h3 className="text-sm font-bold text-foreground/50 uppercase tracking-widest">
                                 Return Payout Mode
                             </h3>
@@ -994,7 +994,7 @@ function POSContent() {
                                 <button
                                     onClick={() => setReturnPayoutMethod("ACCOUNT")}
                                     className={cn(
-                                        "py-3.5 rounded-2xl font-bold text-xs transition-all border flex flex-col items-center gap-1",
+                                        "py-3.5 rounded-none-none font-bold text-xs transition-all border flex flex-col items-center gap-1",
                                         returnPayoutMethod === "ACCOUNT"
                                             ? "bg-emerald-600 text-white border-emerald-600 shadow-lg"
                                             : "bg-black/5 border-black/5 text-foreground/60 hover:text-foreground"
@@ -1006,7 +1006,7 @@ function POSContent() {
                                 <button
                                     onClick={() => setReturnPayoutMethod("CASH")}
                                     className={cn(
-                                        "py-3.5 rounded-2xl font-bold text-xs transition-all border flex flex-col items-center gap-1",
+                                        "py-3.5 rounded-none-none font-bold text-xs transition-all border flex flex-col items-center gap-1",
                                         returnPayoutMethod === "CASH"
                                             ? "bg-amber-600 text-white border-amber-600 shadow-lg"
                                             : "bg-black/5 border-black/5 text-foreground/60 hover:text-foreground"
@@ -1023,7 +1023,7 @@ function POSContent() {
                                     Return Note / Reason
                                 </label>
                                 <textarea
-                                    className="w-full p-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-red-500 font-medium text-xs resize-none"
+                                    className="w-full p-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-red-500 font-medium text-xs resize-none"
                                     rows={2}
                                     placeholder="Defective item, size exchange, etc..."
                                     value={remarks}
@@ -1032,7 +1032,7 @@ function POSContent() {
                             </div>
 
                             {/* Total Return Amount */}
-                            <div className="p-4 rounded-2xl bg-red-600 text-white space-y-1">
+                            <div className="p-4 rounded-none-none bg-red-600 text-white space-y-1">
                                 <span className="text-xs font-bold uppercase opacity-80 tracking-wider">Total Return Value</span>
                                 <div className="text-3xl font-black">{formatCurrency(totalReturnAmount)}</div>
                             </div>
@@ -1041,11 +1041,11 @@ function POSContent() {
                             <button
                                 onClick={handleProcessReturn}
                                 disabled={isProcessing || totalReturnAmount === 0 || !selectedCustomer}
-                                className="w-full py-4 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-black text-lg shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full py-4 rounded-none-none bg-red-600 hover:bg-red-700 text-white font-black text-lg shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {isProcessing ? (
                                     <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-none-none animate-spin" />
                                         Processing Return...
                                     </>
                                 ) : (
@@ -1064,7 +1064,7 @@ function POSContent() {
                     {/* Left Column: Product Selection & Cart */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Search & Add Product Card */}
-                        <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm space-y-4">
+                        <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm space-y-4">
                             <div className="flex justify-between items-center">
                                 <h3 className="text-sm font-bold text-foreground/60 uppercase tracking-widest flex items-center gap-2">
                                     <Plus className="w-4 h-4 text-primary" />
@@ -1080,7 +1080,7 @@ function POSContent() {
                                         ref={productInputRef}
                                         type="text"
                                         placeholder="Scan barcode or type product name/code..."
-                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-bold text-sm"
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-bold text-sm"
                                         value={productQuery}
                                         onChange={(e) => {
                                             setProductQuery(e.target.value);
@@ -1095,7 +1095,7 @@ function POSContent() {
                                                 setProductQuery("");
                                                 setSelectedProductId("");
                                             }}
-                                            className="absolute right-4 p-1 rounded-full hover:bg-black/10 text-foreground/40"
+                                            className="absolute right-4 p-1 rounded-none-none hover:bg-black/10 text-foreground/40"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
@@ -1104,7 +1104,7 @@ function POSContent() {
 
                                 {/* Instant Product Dropdown */}
                                 {showProductDropdown && (
-                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-black/10 max-h-60 overflow-y-auto divide-y divide-black/5">
+                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-none-none shadow-2xl border border-black/10 max-h-60 overflow-y-auto divide-y divide-black/5">
                                         {filteredProducts.length === 0 ? (
                                             <div className="p-4 text-center text-xs text-foreground/40 font-medium">
                                                 No products found {productQuery ? `matching "${productQuery}"` : ""}
@@ -1130,7 +1130,7 @@ function POSContent() {
                                                         <div className="text-right">
                                                             <p className="font-black text-sm text-foreground">{formatCurrency(unitPrice)}</p>
                                                             <span className={cn(
-                                                                "text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mt-0.5",
+                                                                "text-[10px] font-bold px-2 py-0.5 rounded-none-none inline-block mt-0.5",
                                                                 p.stock > 5 ? "bg-emerald-500/10 text-emerald-600" : p.stock > 0 ? "bg-amber-500/10 text-amber-600" : "bg-red-500/10 text-red-600"
                                                             )}>
                                                                 Stock: {p.stock}
@@ -1146,12 +1146,12 @@ function POSContent() {
 
                             {/* Detailed item modifier (when product selected) */}
                             {selectedProductId && (
-                                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-2xl bg-black/[0.02] border border-black/5 grid grid-cols-12 gap-3 items-end">
+                                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-none-none bg-black/[0.02] border border-black/5 grid grid-cols-12 gap-3 items-end">
                                     <div className="col-span-12 md:col-span-4">
                                         <label className="text-[10px] font-bold uppercase text-foreground/40 block mb-1">Item Title</label>
                                         <input
                                             type="text"
-                                            className="w-full px-3 py-2 rounded-xl bg-white border border-black/10 font-bold text-sm"
+                                            className="w-full px-3 py-2 rounded-none-none bg-white border border-black/10 font-bold text-sm"
                                             value={productName}
                                             onChange={(e) => setProductName(e.target.value)}
                                         />
@@ -1161,7 +1161,7 @@ function POSContent() {
                                         <input
                                             type="number"
                                             min="0"
-                                            className="w-full px-3 py-2 rounded-xl bg-white border border-black/10 font-black text-sm text-center"
+                                            className="w-full px-3 py-2 rounded-none-none bg-white border border-black/10 font-black text-sm text-center"
                                             value={price}
                                             onChange={(e) => setPrice(Number(e.target.value))}
                                         />
@@ -1171,7 +1171,7 @@ function POSContent() {
                                         <input
                                             type="number"
                                             min="1"
-                                            className="w-full px-3 py-2 rounded-xl bg-white border border-black/10 font-black text-sm text-center"
+                                            className="w-full px-3 py-2 rounded-none-none bg-white border border-black/10 font-black text-sm text-center"
                                             value={quantity}
                                             onChange={(e) => setQuantity(Number(e.target.value))}
                                         />
@@ -1181,7 +1181,7 @@ function POSContent() {
                                         <input
                                             type="number"
                                             min="0"
-                                            className="w-full px-3 py-2 rounded-xl bg-white border border-black/10 font-medium text-sm text-center"
+                                            className="w-full px-3 py-2 rounded-none-none bg-white border border-black/10 font-medium text-sm text-center"
                                             value={itemDiscount}
                                             onChange={(e) => setItemDiscount(Number(e.target.value))}
                                         />
@@ -1189,7 +1189,7 @@ function POSContent() {
                                     <div className="col-span-12 md:col-span-2">
                                         <button
                                             onClick={addCustomProductToCart}
-                                            className="w-full py-2 rounded-xl bg-primary text-white font-bold text-sm shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-1"
+                                            className="w-full py-2 rounded-none-none bg-primary text-white font-bold text-sm shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-1"
                                         >
                                             <Plus className="w-4 h-4" />
                                             Add
@@ -1200,7 +1200,7 @@ function POSContent() {
                         </div>
 
                         {/* Cart Table */}
-                        <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+                        <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                             <div className="p-4 border-b border-black/5 bg-black/[0.02] flex items-center justify-between">
                                 <h3 className="font-bold text-sm flex items-center gap-2">
                                     <ShoppingCart className="w-4 h-4 text-primary" />
@@ -1248,10 +1248,10 @@ function POSContent() {
                                                         <span className="text-[10px] text-foreground/40 font-mono">{item.code}</span>
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <div className="inline-flex items-center gap-1 bg-black/5 rounded-xl p-1 border border-black/5">
+                                                        <div className="inline-flex items-center gap-1 bg-black/5 rounded-none-none p-1 border border-black/5">
                                                             <button
                                                                 onClick={() => updateCartQuantity(item.id, -1)}
-                                                                className="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs shadow-sm hover:bg-black/5"
+                                                                className="w-6 h-6 rounded-none-none bg-white flex items-center justify-center font-bold text-xs shadow-sm hover:bg-black/5"
                                                             >
                                                                 -
                                                             </button>
@@ -1264,7 +1264,7 @@ function POSContent() {
                                                             />
                                                             <button
                                                                 onClick={() => updateCartQuantity(item.id, 1)}
-                                                                className="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs shadow-sm hover:bg-black/5"
+                                                                className="w-6 h-6 rounded-none-none bg-white flex items-center justify-center font-bold text-xs shadow-sm hover:bg-black/5"
                                                             >
                                                                 +
                                                             </button>
@@ -1274,7 +1274,7 @@ function POSContent() {
                                                         <input
                                                             type="number"
                                                             min="0"
-                                                            className="w-20 px-2 py-1 rounded-lg bg-black/5 border border-black/5 text-right font-medium text-xs focus:outline-none"
+                                                            className="w-20 px-2 py-1 rounded-none-none bg-black/5 border border-black/5 text-right font-medium text-xs focus:outline-none"
                                                             value={item.price}
                                                             onChange={(e) => updateCartItemField(item.id, 'price', Number(e.target.value))}
                                                         />
@@ -1283,7 +1283,7 @@ function POSContent() {
                                                         <input
                                                             type="number"
                                                             min="0"
-                                                            className="w-16 px-2 py-1 rounded-lg bg-black/5 border border-black/5 text-right font-medium text-xs focus:outline-none"
+                                                            className="w-16 px-2 py-1 rounded-none-none bg-black/5 border border-black/5 text-right font-medium text-xs focus:outline-none"
                                                             value={item.itemDiscount}
                                                             onChange={(e) => updateCartItemField(item.id, 'itemDiscount', Number(e.target.value))}
                                                         />
@@ -1294,7 +1294,7 @@ function POSContent() {
                                                     <td className="px-4 py-3 text-center">
                                                         <button
                                                             onClick={() => removeFromCart(item.id)}
-                                                            className="p-1.5 rounded-lg hover:bg-red-500/10 text-foreground/40 hover:text-red-500 transition-colors"
+                                                            className="p-1.5 rounded-none-none hover:bg-red-500/10 text-foreground/40 hover:text-red-500 transition-colors"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
                                                         </button>
@@ -1311,7 +1311,7 @@ function POSContent() {
                     {/* Right Column: Customer & Checkout */}
                     <div className="space-y-6">
                         {/* Customer Search & Selector */}
-                        <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm space-y-3">
+                        <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm space-y-3">
                             <div className="flex justify-between items-center">
                                 <label className="text-xs font-bold text-foreground/50 uppercase tracking-widest flex items-center gap-1.5">
                                     <User className="w-4 h-4 text-primary" />
@@ -1330,7 +1330,7 @@ function POSContent() {
                                 <input
                                     type="text"
                                     placeholder="Search customer name or phone..."
-                                    className="w-full px-4 py-3 rounded-2xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-bold text-sm"
+                                    className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary font-bold text-sm"
                                     value={customerSearch}
                                     onChange={(e) => {
                                         setCustomerSearch(e.target.value);
@@ -1339,7 +1339,7 @@ function POSContent() {
                                     onFocus={() => setShowCustomerDropdown(true)}
                                 />
                                 {showCustomerDropdown && (
-                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-black/10 max-h-52 overflow-y-auto divide-y divide-black/5">
+                                    <div className="absolute z-30 left-0 right-0 top-full mt-2 bg-white rounded-none-none shadow-2xl border border-black/10 max-h-52 overflow-y-auto divide-y divide-black/5">
                                         {filteredCustomers.map(c => (
                                             <div
                                                 key={c.id}
@@ -1355,7 +1355,7 @@ function POSContent() {
                                                     <p className="text-xs text-foreground/40">{c.contact || 'No Contact'}</p>
                                                 </div>
                                                 <span className={cn(
-                                                    "text-xs font-bold px-2 py-1 rounded-lg",
+                                                    "text-xs font-bold px-2 py-1 rounded-none-none",
                                                     c.balance > 0 ? "bg-red-500/10 text-red-600" : "bg-emerald-500/10 text-emerald-600"
                                                 )}>
                                                     Bal: {formatCurrency(c.balance)}
@@ -1367,7 +1367,7 @@ function POSContent() {
                             </div>
 
                             {selectedCustomer && (
-                                <div className="p-3 rounded-2xl bg-primary/5 border border-primary/10 flex justify-between items-center">
+                                <div className="p-3 rounded-none-none bg-primary/5 border border-primary/10 flex justify-between items-center">
                                     <div>
                                         <p className="font-black text-sm text-foreground">{selectedCustomer.name}</p>
                                         <p className="text-xs text-foreground/50">{selectedCustomer.contact || 'No phone'}</p>
@@ -1386,7 +1386,7 @@ function POSContent() {
                         </div>
 
                         {/* Checkout & Bill Summary */}
-                        <div className="rounded-3xl glass border border-black/5 p-6 shadow-sm space-y-4">
+                        <div className="rounded-none-none glass border border-black/5 p-6 shadow-sm space-y-4">
                             <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest flex items-center gap-1.5">
                                 <CreditCard className="w-4 h-4 text-primary" />
                                 Payment Summary
@@ -1397,7 +1397,7 @@ function POSContent() {
                                 <label className="text-[10px] font-bold text-foreground/40 uppercase block mb-1">Invoice Date</label>
                                 <input
                                     type="date"
-                                    className="w-full px-4 py-2.5 rounded-xl bg-black/5 border border-black/5 font-bold text-sm focus:outline-none"
+                                    className="w-full px-4 py-2.5 rounded-none-none bg-black/5 border border-black/5 font-bold text-sm focus:outline-none"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
                                 />
@@ -1413,16 +1413,16 @@ function POSContent() {
                             <div>
                                 <div className="flex justify-between items-center mb-1">
                                     <label className="text-[10px] font-bold text-foreground/40 uppercase">Bill Discount</label>
-                                    <div className="flex text-[10px] font-bold bg-black/5 p-0.5 rounded-lg border border-black/5">
+                                    <div className="flex text-[10px] font-bold bg-black/5 p-0.5 rounded-none-none border border-black/5">
                                         <button
                                             onClick={() => setDiscountType("PERCENT")}
-                                            className={cn("px-2 py-0.5 rounded", discountType === "PERCENT" ? "bg-white text-black shadow-xs font-black" : "text-foreground/40")}
+                                            className={cn("px-2 py-0.5 rounded-none", discountType === "PERCENT" ? "bg-white text-black shadow-xs font-black" : "text-foreground/40")}
                                         >
                                             %
                                         </button>
                                         <button
                                             onClick={() => setDiscountType("FIXED")}
-                                            className={cn("px-2 py-0.5 rounded", discountType === "FIXED" ? "bg-white text-black shadow-xs font-black" : "text-foreground/40")}
+                                            className={cn("px-2 py-0.5 rounded-none", discountType === "FIXED" ? "bg-white text-black shadow-xs font-black" : "text-foreground/40")}
                                         >
                                             RS
                                         </button>
@@ -1431,7 +1431,7 @@ function POSContent() {
                                 <input
                                     type="number"
                                     min="0"
-                                    className="w-full px-4 py-2.5 rounded-xl bg-black/5 border border-black/5 font-bold text-sm focus:outline-none"
+                                    className="w-full px-4 py-2.5 rounded-none-none bg-black/5 border border-black/5 font-bold text-sm focus:outline-none"
                                     placeholder={discountType === "PERCENT" ? "0%" : "RS 0"}
                                     value={billDiscountValue || ""}
                                     onChange={(e) => setBillDiscountValue(Number(e.target.value))}
@@ -1439,7 +1439,7 @@ function POSContent() {
                             </div>
 
                             {/* Net Total Box */}
-                            <div className="p-4 rounded-2xl bg-primary text-white flex justify-between items-center shadow-lg">
+                            <div className="p-4 rounded-none-none bg-primary text-white flex justify-between items-center shadow-lg">
                                 <div>
                                     <span className="text-xs font-bold uppercase tracking-wider opacity-80 block">Net Total</span>
                                     <span className="text-2xl font-black">{formatCurrency(netTotal)}</span>
@@ -1462,7 +1462,7 @@ function POSContent() {
                                 <input
                                     type="number"
                                     min="0"
-                                    className="w-full px-4 py-3 rounded-2xl bg-black/5 border border-black/5 font-black text-lg text-emerald-600 focus:outline-none"
+                                    className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 font-black text-lg text-emerald-600 focus:outline-none"
                                     placeholder="0.00"
                                     value={paidAmount || ""}
                                     onChange={(e) => setPaidAmount(Number(e.target.value))}
@@ -1474,7 +1474,7 @@ function POSContent() {
                                         <button
                                             key={val}
                                             onClick={() => setPaidAmount((prev) => prev + val)}
-                                            className="flex-1 py-1 rounded-lg bg-black/5 hover:bg-black/10 font-bold text-[10px] text-foreground/70"
+                                            className="flex-1 py-1 rounded-none-none bg-black/5 hover:bg-black/10 font-bold text-[10px] text-foreground/70"
                                         >
                                             +{val}
                                         </button>
@@ -1484,7 +1484,7 @@ function POSContent() {
 
                             {/* Balance Due / Change */}
                             <div className={cn(
-                                "p-3 rounded-xl flex justify-between items-center border font-bold text-sm",
+                                "p-3 rounded-none-none flex justify-between items-center border font-bold text-sm",
                                 balance > 0 ? "bg-red-500/5 border-red-500/20 text-red-600" : "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
                             )}>
                                 <span>{balance > 0 ? "Balance Due (Credit)" : "Change Return / Cleared"}</span>
@@ -1495,11 +1495,11 @@ function POSContent() {
                             <button
                                 onClick={handleCheckout}
                                 disabled={isProcessing || cart.length === 0 || !selectedCustomer}
-                                className="w-full py-4 rounded-2xl premium-gradient text-white font-black text-lg shadow-xl hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full py-4 rounded-none-none premium-gradient text-white font-black text-lg shadow-xl hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {isProcessing ? (
                                     <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-none-none animate-spin" />
                                         Processing...
                                     </>
                                 ) : (
@@ -1519,13 +1519,13 @@ function POSContent() {
                 {showAddCustomerModal && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowAddCustomerModal(false)} className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative bg-white text-black p-6 rounded-3xl shadow-2xl w-full max-w-md z-10">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative bg-white text-black p-6 rounded-none-none shadow-2xl w-full max-w-md z-10">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-black text-lg flex items-center gap-2">
                                     <UserPlus className="w-5 h-5 text-primary" />
                                     Add New Customer
                                 </h3>
-                                <button onClick={() => setShowAddCustomerModal(false)} className="p-1 rounded-full hover:bg-black/5">
+                                <button onClick={() => setShowAddCustomerModal(false)} className="p-1 rounded-none-none hover:bg-black/5">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
@@ -1536,7 +1536,7 @@ function POSContent() {
                                     <input
                                         type="text"
                                         required
-                                        className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/10 font-bold focus:outline-none focus:border-primary"
+                                        className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/10 font-bold focus:outline-none focus:border-primary"
                                         placeholder="Full Name"
                                         value={newCustomerName}
                                         onChange={(e) => setNewCustomerName(e.target.value)}
@@ -1546,7 +1546,7 @@ function POSContent() {
                                     <label className="text-xs font-bold text-foreground/50 uppercase block mb-1">Phone Number</label>
                                     <input
                                         type="text"
-                                        className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/10 font-bold focus:outline-none focus:border-primary"
+                                        className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/10 font-bold focus:outline-none focus:border-primary"
                                         placeholder="0300 0000000"
                                         value={newCustomerContact}
                                         onChange={(e) => setNewCustomerContact(e.target.value)}
@@ -1556,7 +1556,7 @@ function POSContent() {
                                     <label className="text-xs font-bold text-foreground/50 uppercase block mb-1">Address</label>
                                     <input
                                         type="text"
-                                        className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/10 font-medium focus:outline-none focus:border-primary"
+                                        className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/10 font-medium focus:outline-none focus:border-primary"
                                         placeholder="City / Area"
                                         value={newCustomerAddress}
                                         onChange={(e) => setNewCustomerAddress(e.target.value)}
@@ -1566,14 +1566,14 @@ function POSContent() {
                                     <button
                                         type="button"
                                         onClick={() => setShowAddCustomerModal(false)}
-                                        className="flex-1 py-3 rounded-xl bg-black/5 font-bold text-sm"
+                                        className="flex-1 py-3 rounded-none-none bg-black/5 font-bold text-sm"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isCreatingCustomer}
-                                        className="flex-1 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-md"
+                                        className="flex-1 py-3 rounded-none-none bg-primary text-white font-bold text-sm shadow-md"
                                     >
                                         {isCreatingCustomer ? "Saving..." : "Save Customer"}
                                     </button>
@@ -1593,13 +1593,13 @@ function POSContent() {
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative bg-white text-black p-8 rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto w-full max-w-lg z-10"
+                            className="relative bg-white text-black p-8 rounded-none-none shadow-2xl max-h-[90vh] overflow-y-auto w-full max-w-lg z-10"
                         >
                             <div className="text-center space-y-1 mb-4 border-b border-dashed border-black/20 pb-4">
                                 <h3 className="font-black text-xl">Liberty Kollection</h3>
                                 <p className="text-xs text-black/60">Chapai wali gali, Committee Bazar, Mandi Bahauddin</p>
                                 <p className="text-xs text-black/60">0345 5754717 | 0546-506717</p>
-                                <div className="mt-2 inline-block px-3 py-1 rounded-full text-xs font-black uppercase bg-black/5">
+                                <div className="mt-2 inline-block px-3 py-1 rounded-none-none text-xs font-black uppercase bg-black/5">
                                     {lastReturn ? "RETURN CREDIT VOUCHER" : (lastSale?.type || "SALE RECEIPT")}
                                 </div>
                             </div>
@@ -1647,14 +1647,14 @@ function POSContent() {
                             <div className="flex gap-3 mt-6">
                                 <button
                                     onClick={handlePrint}
-                                    className="flex-1 py-3 rounded-2xl bg-black text-white font-bold flex items-center justify-center gap-2 hover:bg-black/80 transition-all"
+                                    className="flex-1 py-3 rounded-none-none bg-black text-white font-bold flex items-center justify-center gap-2 hover:bg-black/80 transition-all"
                                 >
                                     <Printer className="w-4 h-4" />
                                     Print Receipt
                                 </button>
                                 <button
                                     onClick={() => setShowReceipt(false)}
-                                    className="flex-1 py-3 rounded-2xl bg-black/10 text-black font-bold hover:bg-black/20 transition-all"
+                                    className="flex-1 py-3 rounded-none-none bg-black/10 text-black font-bold hover:bg-black/20 transition-all"
                                 >
                                     Close
                                 </button>

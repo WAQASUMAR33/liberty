@@ -62,7 +62,7 @@ export default function AdminPage() {
                 </div>
                 <button
                     onClick={() => { setEditingUser(null); setIsModalOpen(true); }}
-                    className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-xl transition-all"
+                    className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold flex items-center gap-2 group shadow-xl transition-all"
                 >
                     <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
                     Add User
@@ -75,14 +75,14 @@ export default function AdminPage() {
                     <input
                         type="text"
                         placeholder="Search by name or username..."
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
+                        className="w-full pl-12 pr-4 py-4 rounded-none-none glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
             </div>
 
-            <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -99,7 +99,7 @@ export default function AdminPage() {
                                 <tr>
                                     <td colSpan={5} className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center gap-4">
-                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-none-none animate-spin" />
                                             <p className="text-foreground/40 font-medium">Loading users...</p>
                                         </div>
                                     </td>
@@ -115,7 +115,7 @@ export default function AdminPage() {
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div className={cn(
-                                                "w-10 h-10 rounded-full flex items-center justify-center text-white font-bold",
+                                                "w-10 h-10 rounded-none-none flex items-center justify-center text-white font-bold",
                                                 user.role === "ADMIN" ? "bg-gradient-to-br from-purple-500 to-pink-500" : "bg-gradient-to-br from-blue-500 to-cyan-500"
                                             )}>
                                                 {user.name[0].toUpperCase()}
@@ -126,7 +126,7 @@ export default function AdminPage() {
                                     <td className="px-6 py-4 text-foreground/60 font-mono text-sm">@{user.username}</td>
                                     <td className="px-6 py-4">
                                         <span className={cn(
-                                            "px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest border",
+                                            "px-3 py-1 rounded-none-none text-xs font-black uppercase tracking-widest border",
                                             user.role === "ADMIN"
                                                 ? "bg-purple-500/10 text-purple-600 border-purple-500/20"
                                                 : "bg-blue-500/10 text-blue-600 border-blue-500/20"
@@ -142,13 +142,13 @@ export default function AdminPage() {
                                         <div className="flex justify-center gap-2">
                                             <button
                                                 onClick={() => { setEditingUser(user); setIsModalOpen(true); }}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(user.id)}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-red-500/10 text-foreground/60 hover:text-red-400 transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-red-500/10 text-foreground/60 hover:text-red-400 transition-all"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
@@ -213,11 +213,11 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-xl rounded-3xl glass border border-black/5 p-8 shadow-2xl"
+                className="relative w-full max-w-xl rounded-none-none glass border border-black/5 p-8 shadow-2xl"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-600">
+                        <div className="w-10 h-10 rounded-none-none bg-purple-500/20 flex items-center justify-center text-purple-600">
                             <ShieldCheck className="w-6 h-6" />
                         </div>
                         <h3 className="text-2xl font-bold">{initialData ? "Edit User" : "New User"}</h3>
@@ -226,7 +226,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                 </div>
 
                 {error && (
-                    <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    <div className="mb-6 p-4 rounded-none-none bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                         {error}
                     </div>
                 )}
@@ -238,7 +238,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                             <UserCircle className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                             <input
                                 required
-                                className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium"
+                                className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium"
                                 placeholder="John Doe"
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -253,7 +253,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                                 <input
                                     required
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-mono"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-mono"
                                     placeholder="johndoe"
                                     value={formData.username}
                                     onChange={e => setFormData({ ...formData, username: e.target.value })}
@@ -269,7 +269,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                                 <input
                                     type="password"
                                     required={!initialData}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
                                     placeholder="••••••••"
                                     value={formData.password}
                                     onChange={e => setFormData({ ...formData, password: e.target.value })}
@@ -287,7 +287,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role })}
                                     className={cn(
-                                        "flex-1 py-3 rounded-xl border font-bold transition-all flex items-center justify-center gap-2",
+                                        "flex-1 py-3 rounded-none-none border font-bold transition-all flex items-center justify-center gap-2",
                                         formData.role === role
                                             ? role === "ADMIN"
                                                 ? "bg-purple-500 border-purple-500 text-white shadow-lg"
@@ -304,7 +304,7 @@ function UserModal({ onClose, onSubmit, initialData }: { onClose: () => void, on
 
                     <button
                         type="submit"
-                        className="w-full py-4 rounded-2xl premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all"
+                        className="w-full py-4 rounded-none-none premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all"
                     >
                         {initialData ? "Update User" : "Create User"}
                     </button>

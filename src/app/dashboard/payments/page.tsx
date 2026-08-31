@@ -50,7 +50,7 @@ export default function PaymentsPage() {
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-xl transition-all"
+                    className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold flex items-center gap-2 group shadow-xl transition-all"
                 >
                     <Wallet className="w-5 h-5" />
                     Collect Payment
@@ -58,7 +58,7 @@ export default function PaymentsPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <div className="lg:col-span-3 rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+                <div className="lg:col-span-3 rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                     <div className="p-6 border-b border-black/5 flex items-center gap-3 bg-black/[0.01]">
                         <History className="w-5 h-5 text-primary" />
                         <h3 className="font-bold uppercase tracking-widest text-xs">Payment History</h3>
@@ -84,7 +84,7 @@ export default function PaymentsPage() {
                                         <td className="px-6 py-4 text-xs text-foreground/60 font-medium">{new Date(payment.date).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 font-bold">{payment.customer.name}</td>
                                         <td className="px-6 py-4">
-                                            <span className="px-2 py-1 rounded-lg bg-black/5 text-[10px] font-black uppercase tracking-widest text-primary border border-black/5">
+                                            <span className="px-2 py-1 rounded-none-none bg-black/5 text-[10px] font-black uppercase tracking-widest text-primary border border-black/5">
                                                 {payment.method}
                                             </span>
                                         </td>
@@ -98,7 +98,7 @@ export default function PaymentsPage() {
                 </div>
 
                 <div className="space-y-6">
-                    <div className="p-8 rounded-3xl glass border border-emerald-500/10 bg-emerald-500/5 relative overflow-hidden group hover:bg-emerald-500/10 transition-all shadow-sm">
+                    <div className="p-8 rounded-none-none glass border border-emerald-500/10 bg-emerald-500/5 relative overflow-hidden group hover:bg-emerald-500/10 transition-all shadow-sm">
                         <TrendingUp className="absolute -right-4 -bottom-4 w-32 h-32 opacity-5 text-emerald-600" />
                         <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">Total Collections</p>
                         <h3 className="text-3xl font-black text-foreground">
@@ -301,11 +301,11 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-lg rounded-3xl glass border border-black/5 p-8 shadow-2xl"
+                className="relative w-full max-w-lg rounded-none-none glass border border-black/5 p-8 shadow-2xl"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                        <div className="w-10 h-10 rounded-none-none bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                             <DollarSign className="w-6 h-6" />
                         </div>
                         <h3 className="text-2xl font-bold italic">New Receipt</h3>
@@ -320,7 +320,7 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                             <select
                                 required
-                                className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all appearance-none font-bold"
+                                className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all appearance-none font-bold"
                                 value={formData.customerId}
                                 onChange={e => setFormData({ ...formData, customerId: e.target.value })}
                             >
@@ -340,7 +340,7 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                             <input
                                 type="number"
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all font-black text-xl text-emerald-600"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all font-black text-xl text-emerald-600"
                                 placeholder="0.00"
                                 value={formData.amount}
                                 onChange={e => setFormData({ ...formData, amount: e.target.value })}
@@ -353,7 +353,7 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                                 <input
                                     type="date"
                                     required
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all font-medium"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all font-medium"
                                     value={formData.date}
                                     onChange={e => setFormData({ ...formData, date: e.target.value })}
                                 />
@@ -370,7 +370,7 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                                     type="button"
                                     onClick={() => setFormData({ ...formData, method: m })}
                                     className={cn(
-                                        "flex-1 py-3 rounded-xl border font-bold transition-all flex items-center justify-center gap-2",
+                                        "flex-1 py-3 rounded-none-none border font-bold transition-all flex items-center justify-center gap-2",
                                         formData.method === m ? "bg-emerald-500 border-emerald-500 text-white shadow-lg" : "bg-black/5 border-black/5 text-foreground/40 hover:bg-black/10"
                                     )}
                                 >
@@ -386,7 +386,7 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                         <div className="relative">
                             <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-foreground/40" />
                             <textarea
-                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all h-24 resize-none"
+                                className="w-full pl-12 pr-4 py-4 rounded-none-none bg-black/5 border border-black/5 focus:border-emerald-500 focus:outline-none transition-all h-24 resize-none"
                                 placeholder="Payment for invoice #..."
                                 value={formData.remarks}
                                 onChange={e => setFormData({ ...formData, remarks: e.target.value })}
@@ -397,9 +397,9 @@ function PaymentModal({ customers, onClose, onSubmit }: { customers: any[], onCl
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-4 rounded-2xl premium-gradient text-white font-black shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                        className="w-full py-4 rounded-none-none premium-gradient text-white font-black shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
                     >
-                        {loading ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Wallet className="w-5 h-5" />}
+                        {loading ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-none-none animate-spin" /> : <Wallet className="w-5 h-5" />}
                         Confirm Receipt
                     </button>
                 </form>

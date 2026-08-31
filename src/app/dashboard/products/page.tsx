@@ -91,14 +91,14 @@ export default function ProductsPage() {
                 <div className="flex gap-3">
                     <button
                         onClick={() => { setBarcodeProduct(null); setIsBarcodeModalOpen(true); }}
-                        className="px-6 py-3 rounded-2xl bg-white border border-black/5 font-bold flex items-center gap-2 hover:bg-black/5 transition-all text-foreground/80"
+                        className="px-6 py-3 rounded-none-none bg-white border border-black/5 font-bold flex items-center gap-2 hover:bg-black/5 transition-all text-foreground/80"
                     >
                         <ScanBarcode className="w-5 h-5" />
                         Print Label
                     </button>
                     <button
                         onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}
-                        className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all"
+                        className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all"
                     >
                         <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
                         Add Product
@@ -112,18 +112,18 @@ export default function ProductsPage() {
                     <input
                         type="text"
                         placeholder="Search by name or code..."
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
+                        className="w-full pl-12 pr-4 py-4 rounded-none-none glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
-                <button className="px-6 py-4 rounded-2xl glass border border-black/5 flex items-center gap-2 font-bold hover:bg-black/5 transition-all">
+                <button className="px-6 py-4 rounded-none-none glass border border-black/5 flex items-center gap-2 font-bold hover:bg-black/5 transition-all">
                     <Filter className="w-5 h-5" />
                     Filter
                 </button>
             </div>
 
-            <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -144,7 +144,7 @@ export default function ProductsPage() {
                                 <tr>
                                     <td colSpan={9} className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center gap-4">
-                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                            <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-none-none animate-spin" />
                                             <p className="text-foreground/40 font-medium">Fetching inventory...</p>
                                         </div>
                                     </td>
@@ -162,7 +162,7 @@ export default function ProductsPage() {
                                     <td className="px-6 py-4 text-sm text-foreground/60">{product.category?.name || '-'}</td>
                                     <td className="px-6 py-4 text-sm text-foreground/60">
                                         {product.brand?.name ? (
-                                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                            <span className="px-2.5 py-1 rounded-none-none text-xs font-semibold bg-primary/10 text-primary">
                                                 {product.brand.name}
                                             </span>
                                         ) : '-'}
@@ -179,20 +179,20 @@ export default function ProductsPage() {
                                         <div className="flex justify-center gap-2">
                                             <button
                                                 onClick={() => { setBarcodeProduct(product); setIsBarcodeModalOpen(true); }}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
                                                 title="Print Barcode"
                                             >
                                                 <ScanBarcode className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => { setEditingProduct(product); setIsModalOpen(true); }}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-red-500/10 text-foreground/60 hover:text-red-400 transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-red-500/10 text-foreground/60 hover:text-red-400 transition-all"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
@@ -324,11 +324,11 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-md rounded-3xl glass border border-black/5 p-8 overflow-hidden shadow-2xl"
+                className="relative w-full max-w-md rounded-none-none glass border border-black/5 p-8 overflow-hidden shadow-2xl"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                        <div className="w-10 h-10 rounded-none-none bg-primary/20 flex items-center justify-center text-primary">
                             <ScanBarcode className="w-6 h-6" />
                         </div>
                         <h3 className="text-2xl font-bold">Print Barcode</h3>
@@ -342,7 +342,7 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
                     <div className="space-y-2">
                         <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Product Name</label>
                         <input
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium"
                             value={printData.name}
                             onChange={e => setPrintData({ ...printData, name: e.target.value })}
                         />
@@ -351,7 +351,7 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Barcode</label>
                             <input
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-mono"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-mono"
                                 value={printData.code}
                                 onChange={e => setPrintData({ ...printData, code: e.target.value })}
                             />
@@ -360,14 +360,14 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Price</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
                                 value={printData.price}
                                 onChange={e => setPrintData({ ...printData, price: e.target.value })}
                             />
                         </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-white border border-black/5 flex flex-col items-center justify-center gap-2" id="barcode-preview">
+                    <div className="p-6 rounded-none-none bg-white border border-black/5 flex flex-col items-center justify-center gap-2" id="barcode-preview">
                         <img 
                             src="/libertycollection.png" 
                             alt="Liberty Collection" 
@@ -387,7 +387,7 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
 
                     <button
                         onClick={handlePrint}
-                        className="w-full py-4 rounded-2xl premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                        className="w-full py-4 rounded-none-none premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
                     >
                         <ScanBarcode className="w-5 h-5" />
                         Print Label (1.5" x 1")
@@ -441,11 +441,11 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-2xl rounded-3xl glass border border-black/5 p-8 overflow-hidden shadow-2xl bg-white"
+                className="relative w-full max-w-2xl rounded-none-none glass border border-black/5 p-8 overflow-hidden shadow-2xl bg-white"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                        <div className="w-10 h-10 rounded-none-none bg-primary/20 flex items-center justify-center text-primary">
                             <Box className="w-6 h-6" />
                         </div>
                         <h3 className="text-2xl font-bold">{initialData ? "Edit Product" : "New Product"}</h3>
@@ -456,7 +456,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                 </div>
 
                 {error && (
-                    <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+                    <div className="mb-6 p-4 rounded-none-none bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
                         {error}
                     </div>
                 )}
@@ -467,7 +467,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Product Code</label>
                             <input
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-mono"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-mono"
                                 placeholder="PROD-001"
                                 value={formData.code}
                                 onChange={e => setFormData({ ...formData, code: e.target.value })}
@@ -477,7 +477,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Name</label>
                             <input
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium"
                                 placeholder="Widget Ultra Pro"
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -489,7 +489,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                          <div className="space-y-2">
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Category</label>
                             <select
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium appearance-none"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium appearance-none"
                                 value={formData.categoryId || ""}
                                 onChange={e => setFormData({ ...formData, categoryId: e.target.value })}
                             >
@@ -502,7 +502,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Brand</label>
                             <select
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium appearance-none"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium appearance-none"
                                 value={formData.brandId || ""}
                                 onChange={e => setFormData({ ...formData, brandId: e.target.value })}
                             >
@@ -517,7 +517,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                             <input
                                 type="number"
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
                                 value={formData.stock}
                                 onChange={e => setFormData({ ...formData, stock: e.target.value })}
                             />
@@ -531,7 +531,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                                 type="number"
                                 step="0.01"
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
                                 placeholder="0.00"
                                 value={formData.costPrice}
                                 onChange={e => setFormData({ ...formData, costPrice: e.target.value })}
@@ -543,7 +543,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                                 type="number"
                                 step="0.01"
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
                                 placeholder="0.00"
                                 value={formData.wholesalePrice}
                                 onChange={e => setFormData({ ...formData, wholesalePrice: e.target.value })}
@@ -555,7 +555,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                                 type="number"
                                 step="0.01"
                                 required
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
+                                className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all"
                                 placeholder="0.00"
                                 value={formData.retailPrice}
                                 onChange={e => setFormData({ ...formData, retailPrice: e.target.value })}
@@ -566,7 +566,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { 
                     <div className="pt-4">
                         <button
                             type="submit"
-                            className="w-full py-4 rounded-2xl premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-4 rounded-none-none premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
                         >
                             {initialData ? "Update Product" : "Create Product"}
                         </button>

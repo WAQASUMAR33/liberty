@@ -39,8 +39,8 @@ export default function LoginPage() {
         <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-none-none blur-[120px]" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-none-none blur-[120px]" />
             </div>
 
             <motion.div
@@ -59,12 +59,12 @@ export default function LoginPage() {
                 </div>
 
                 {/* Login Card */}
-                <div className="rounded-3xl glass border border-black/5 p-8 shadow-xl">
+                <div className="rounded-none-none glass border border-black/5 p-8 shadow-xl">
                     {loginError && (
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm font-medium"
+                            className="mb-6 p-4 rounded-none-none bg-red-500/10 border border-red-500/20 text-red-600 text-sm font-medium"
                         >
                             {loginError}
                         </motion.div>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                                     type="text"
                                     required
                                     autoFocus
-                                    className="w-full pl-12 pr-4 py-4 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium text-lg"
+                                    className="w-full pl-12 pr-4 py-4 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium text-lg"
                                     placeholder="Enter your username"
                                     value={formData.username}
                                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
@@ -98,7 +98,7 @@ export default function LoginPage() {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     required
-                                    className="w-full pl-12 pr-12 py-4 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium text-lg"
+                                    className="w-full pl-12 pr-12 py-4 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-medium text-lg"
                                     placeholder="Enter your password"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -116,11 +116,11 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-4 rounded-2xl premium-gradient text-white font-bold text-lg shadow-xl hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full py-4 rounded-none-none premium-gradient text-white font-bold text-lg shadow-xl hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 <>
-                                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-none-none animate-spin" />
                                     Signing in...
                                 </>
                             ) : (

@@ -21,7 +21,6 @@
   --color-border: #e2e8f0;
   --color-input: #f1f5f9;
 
-  /* Global zero radius for all rounded utilities */
   --radius-xs: 0px;
   --radius-sm: 0px;
   --radius-md: 0px;
@@ -39,7 +38,7 @@
   --foreground: #0f172a;
 }
 
-*, ::before, ::after {
+*, ::before, ::after, div, button, input, select, textarea, span, table, tr, th, td, a, p, aside, header, nav, main, section, form, [class*="rounded"] {
   border-color: var(--color-border);
   border-radius: 0px !important;
 }
@@ -53,6 +52,10 @@ body {
 }
 
 @layer utilities {
+  .rounded, .rounded-xs, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full {
+    border-radius: 0px !important;
+  }
+
   .glass {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
@@ -90,12 +93,12 @@ body {
 
   .custom-scrollbar::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.02);
-    border-radius: 0px;
+    border-radius: 0px !important;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(37, 99, 235, 0.3);
-    border-radius: 0px;
+    border-radius: 0px !important;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {

@@ -49,7 +49,7 @@ export default function CustomersPage() {
                 </div>
                 <button
                     onClick={() => { setEditingCustomer(null); setIsModalOpen(true); }}
-                    className="px-6 py-3 rounded-2xl premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all self-start sm:self-auto"
+                    className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold flex items-center gap-2 group shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all self-start sm:self-auto"
                 >
                     <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
                     Add Customer
@@ -62,14 +62,14 @@ export default function CustomersPage() {
                     <input
                         type="text"
                         placeholder="Search by name, contact or CNIC..."
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
+                        className="w-full pl-12 pr-4 py-4 rounded-none-none glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-medium"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
             </div>
 
-            <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+            <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -97,7 +97,7 @@ export default function CustomersPage() {
                                 <tr key={customer.id} className="hover:bg-black/[0.02] transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+                                            <div className="w-8 h-8 rounded-none-none bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
                                                 {customer.name[0]}
                                             </div>
                                             <span className="font-bold">{customer.name}</span>
@@ -118,7 +118,7 @@ export default function CustomersPage() {
                                         <div className="flex justify-center gap-2">
                                             <button
                                                 onClick={() => { setEditingCustomer(customer); setIsModalOpen(true); }}
-                                                className="p-2 rounded-xl bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
+                                                className="p-2 rounded-none-none bg-black/5 hover:bg-black/10 text-foreground/60 hover:text-foreground transition-all"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
@@ -184,11 +184,11 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-xl rounded-3xl glass border border-black/5 p-8 shadow-2xl"
+                className="relative w-full max-w-xl rounded-none-none glass border border-black/5 p-8 shadow-2xl"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                        <div className="w-10 h-10 rounded-none-none bg-primary/20 flex items-center justify-center text-primary">
                             <Users className="w-6 h-6" />
                         </div>
                         <h3 className="text-2xl font-bold">{initialData ? "Edit Customer" : "New Customer"}</h3>
@@ -197,7 +197,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                 </div>
 
                 {error && (
-                    <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    <div className="mb-6 p-4 rounded-none-none bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                         {error}
                     </div>
                 )}
@@ -209,7 +209,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                             <input
                                 required
-                                className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
+                                className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
                                 placeholder="Ex: John Smith"
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -224,7 +224,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                                 <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                                 <input
                                     required
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
                                     placeholder="+1 234 567 890"
                                     value={formData.contact}
                                     onChange={e => setFormData({ ...formData, contact: e.target.value })}
@@ -236,7 +236,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                             <div className="relative">
                                 <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
                                 <input
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
+                                    className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all"
                                     placeholder="35XXX-XXXXXXX-X"
                                     value={formData.cnic}
                                     onChange={e => setFormData({ ...formData, cnic: e.target.value })}
@@ -250,7 +250,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                         <input
                             type="number"
                             step="0.01"
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-bold text-lg"
+                            className="w-full px-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all font-bold text-lg"
                             value={formData.balance}
                             onChange={e => setFormData({ ...formData, balance: e.target.value })}
                         />
@@ -262,7 +262,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
                         <div className="relative">
                             <MapPin className="absolute left-4 top-3 w-4 h-4 text-foreground/40" />
                             <textarea
-                                className="w-full pl-12 pr-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all h-24 resize-none"
+                                className="w-full pl-12 pr-4 py-3 rounded-none-none bg-black/5 border border-black/5 focus:border-primary focus:outline-none transition-all h-24 resize-none"
                                 placeholder="Street, City, Country"
                                 value={formData.address}
                                 onChange={e => setFormData({ ...formData, address: e.target.value })}
@@ -272,7 +272,7 @@ function CustomerModal({ onClose, onSubmit, initialData }: { onClose: () => void
 
                     <button
                         type="submit"
-                        className="w-full py-4 rounded-2xl premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all"
+                        className="w-full py-4 rounded-none-none premium-gradient text-white font-bold shadow-xl hover:opacity-90 transition-all"
                     >
                         {initialData ? "Update Customer" : "Save Customer"}
                     </button>

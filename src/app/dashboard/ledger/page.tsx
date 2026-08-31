@@ -249,7 +249,7 @@ export default function LedgerPage() {
                 <button
                     onClick={printLedger}
                     disabled={!selectedCustomerId || ledger.length === 0}
-                    className="px-6 py-3 rounded-2xl glass border border-black/10 text-foreground font-bold flex items-center gap-2 hover:bg-black/5 transition-all disabled:opacity-50 shadow-sm"
+                    className="px-6 py-3 rounded-none-none glass border border-black/10 text-foreground font-bold flex items-center gap-2 hover:bg-black/5 transition-all disabled:opacity-50 shadow-sm"
                 >
                     <Printer className="w-5 h-5" />
                     Print Ledger
@@ -261,7 +261,7 @@ export default function LedgerPage() {
                     <label className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em] pl-1 absolute -top-4 left-0">Select Customer</label>
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40 group-focus-within:text-primary transition-colors" />
                     <select
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-bold appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-4 py-4 rounded-none-none glass border border-black/5 focus:outline-none focus:border-primary/50 transition-all font-bold appearance-none cursor-pointer"
                         value={selectedCustomerId}
                         onChange={(e) => setSelectedCustomerId(e.target.value)}
                     >
@@ -276,20 +276,20 @@ export default function LedgerPage() {
             {selectedCustomerId ? (
                 <div id="ledger-content" className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="p-6 rounded-3xl glass border border-black/5 bg-black/[0.01] shadow-sm">
+                        <div className="p-6 rounded-none-none glass border border-black/5 bg-black/[0.01] shadow-sm">
                             <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest mb-1">Customer Details</p>
                             <h3 className="text-xl font-black">{selectedCustomer?.name}</h3>
                             <p className="text-sm text-foreground/60 mt-1">{selectedCustomer?.contact}</p>
                             <p className="text-[10px] text-foreground/40 mt-4 leading-relaxed uppercase font-medium">{selectedCustomer?.address}</p>
                         </div>
-                        <div className="p-6 rounded-3xl glass border border-red-500/10 bg-red-500/[0.02] shadow-sm">
+                        <div className="p-6 rounded-none-none glass border border-red-500/10 bg-red-500/[0.02] shadow-sm">
                             <p className="text-xs font-bold text-red-600 uppercase tracking-widest mb-1">Total Credit</p>
                             <h3 className="text-3xl font-black text-red-600">
                                 {formatCurrency(ledger.reduce((sum, e) => sum + Number(e.credit), 0))}
                             </h3>
                             <p className="text-[10px] text-red-600/40 mt-1 uppercase font-black">Sales on Credit</p>
                         </div>
-                        <div className="p-6 rounded-3xl glass border border-blue-500/10 bg-blue-500/[0.02] shadow-sm">
+                        <div className="p-6 rounded-none-none glass border border-blue-500/10 bg-blue-500/[0.02] shadow-sm">
                             <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Current Balance</p>
                             <h3 className="text-3xl font-black text-foreground">
                                 {formatCurrency(selectedCustomer?.balance)}
@@ -298,7 +298,7 @@ export default function LedgerPage() {
                         </div>
                     </div>
 
-                    <div className="rounded-3xl glass border border-black/5 overflow-hidden shadow-sm">
+                    <div className="rounded-none-none glass border border-black/5 overflow-hidden shadow-sm">
                         <div className="p-6 border-b border-black/5 bg-black/[0.01] flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <Calendar className="w-5 h-5 text-primary" />
@@ -361,7 +361,7 @@ export default function LedgerPage() {
                                                         ) : "—"}
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
-                                                        <span className="font-black text-foreground px-3 py-1 rounded-lg bg-black/5 border border-black/5">
+                                                        <span className="font-black text-foreground px-3 py-1 rounded-none-none bg-black/5 border border-black/5">
                                                             {formatCurrency(entry.balance)}
                                                         </span>
                                                     </td>
@@ -375,7 +375,7 @@ export default function LedgerPage() {
                     </div>
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-40 rounded-3xl border-2 border-dashed border-black/5 opacity-40">
+                <div className="flex flex-col items-center justify-center py-40 rounded-none-none border-2 border-dashed border-black/5 opacity-40">
                     <BookOpen className="w-16 h-16 mb-6" />
                     <p className="text-xl font-bold italic tracking-tighter">Choose a customer to reveal their financial story.</p>
                 </div>
