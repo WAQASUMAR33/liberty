@@ -14,6 +14,7 @@ import {
     LogOut,
     ShieldCheck,
     Layers,
+    Tag,
     X,
     Menu
 } from "lucide-react";
@@ -25,6 +26,7 @@ const menuItems = [
     { icon: ShoppingCart, label: "POS / Billing", href: "/dashboard/pos" },
     { icon: Package, label: "Products", href: "/dashboard/products" },
     { icon: Layers, label: "Categories", href: "/dashboard/categories" },
+    { icon: Tag, label: "Brands", href: "/dashboard/brands" },
     { icon: Users, label: "Customers", href: "/dashboard/customers" },
     { icon: BookOpen, label: "Ledger", href: "/dashboard/ledger" },
     { icon: Wallet, label: "Payments", href: "/dashboard/payments" },

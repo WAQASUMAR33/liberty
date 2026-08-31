@@ -9,6 +9,10 @@ export async function GET(
         const { id } = await params;
         const product = await prisma.product.findUnique({
             where: { id },
+            include: {
+                category: true,
+                brand: true,
+            },
         });
         return NextResponse.json(product);
     } catch (error) {
@@ -33,6 +37,7 @@ export async function PUT(
                 retailPrice: json.retailPrice,
                 stock: parseInt(json.stock),
                 categoryId: json.categoryId || null,
+                brandId: json.brandId || null,
             },
         });
         return NextResponse.json(product);

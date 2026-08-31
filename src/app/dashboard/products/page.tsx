@@ -19,6 +19,7 @@ import Barcode from "react-barcode";
 export default function ProductsPage() {
     const [products, setProducts] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
+    const [brands, setBrands] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,6 +49,16 @@ export default function ProductsPage() {
         }
     };
 
+    const fetchBrands = async () => {
+        try {
+            const res = await fetch("/api/brands");
+            const data = await res.json();
+            setBrands(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchProducts();
@@ -57,6 +68,7 @@ export default function ProductsPage() {
 
     useEffect(() => {
         fetchCategories();
+        fetchBrands();
     }, []);
 
     const handleDelete = async (id: string) => {
@@ -119,6 +131,7 @@ export default function ProductsPage() {
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Code</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Product Name</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Category</th>
+                                <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Brand</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Cost</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Wholesale</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Retail</th>
@@ -129,7 +142,7 @@ export default function ProductsPage() {
                         <tbody className="divide-y divide-black/5">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={8} className="px-6 py-20 text-center">
+                                    <td colSpan={9} className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center gap-4">
                                             <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
                                             <p className="text-foreground/40 font-medium">Fetching inventory...</p>
@@ -138,7 +151,7 @@ export default function ProductsPage() {
                                 </tr>
                             ) : products.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className="px-6 py-20 text-center text-foreground/40 font-medium">
+                                    <td colSpan={9} className="px-6 py-20 text-center text-foreground/40 font-medium">
                                         No products found. Add your first product to get started.
                                     </td>
                                 </tr>
@@ -147,6 +160,13 @@ export default function ProductsPage() {
                                     <td className="px-6 py-4 font-mono text-xs text-primary">{product.code}</td>
                                     <td className="px-6 py-4 font-bold">{product.name}</td>
                                     <td className="px-6 py-4 text-sm text-foreground/60">{product.category?.name || '-'}</td>
+                                    <td className="px-6 py-4 text-sm text-foreground/60">
+                                        {product.brand?.name ? (
+                                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                                {product.brand.name}
+                                            </span>
+                                        ) : '-'}
+                                    </td>
                                     <td className="px-6 py-4 text-foreground/60">{formatCurrency(product.costPrice)}</td>
                                     <td className="px-6 py-4 text-emerald-400 font-medium">{formatCurrency(product.wholesalePrice)}</td>
                                     <td className="px-6 py-4 text-blue-400 font-medium">{formatCurrency(product.retailPrice)}</td>
@@ -192,6 +212,7 @@ export default function ProductsPage() {
                         onSubmit={() => { setIsModalOpen(false); fetchProducts(); }}
                         initialData={editingProduct}
                         categories={categories}
+                        brands={brands}
                     />
                 )}
                 {isBarcodeModalOpen && (
@@ -377,15 +398,16 @@ function BarcodeModal({ onClose, product }: { onClose: () => void, product: any 
     );
 }
 
-function ProductModal({ onClose, onSubmit, initialData, categories }: { onClose: () => void, onSubmit: () => void, initialData: any, categories: any[] }) {
-    const [formData, setFormData] = useState(initialData || {
-        code: "",
-        name: "",
-        costPrice: "",
-        wholesalePrice: "",
-        retailPrice: "",
-        stock: "0",
-        categoryId: ""
+function ProductModal({ onClose, onSubmit, initialData, categories, brands }: { onClose: () => void, onSubmit: () => void, initialData: any, categories: any[], brands: any[] }) {
+    const [formData, setFormData] = useState({
+        code: initialData?.code || "",
+        name: initialData?.name || "",
+        costPrice: initialData?.costPrice || "",
+        wholesalePrice: initialData?.wholesalePrice || "",
+        retailPrice: initialData?.retailPrice || "",
+        stock: initialData?.stock !== undefined ? String(initialData.stock) : "0",
+        categoryId: initialData?.categoryId || initialData?.category?.id || "",
+        brandId: initialData?.brandId || initialData?.brand?.id || "",
     });
     const [error, setError] = useState("");
 
@@ -419,7 +441,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories }: { onClose:
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-2xl rounded-3xl glass border border-black/5 p-8 overflow-hidden shadow-2xl"
+                className="relative w-full max-w-2xl rounded-3xl glass border border-black/5 p-8 overflow-hidden shadow-2xl bg-white"
             >
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-3">
@@ -463,7 +485,7 @@ function ProductModal({ onClose, onSubmit, initialData, categories }: { onClose:
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-3 gap-6">
                          <div className="space-y-2">
                             <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Category</label>
                             <select
@@ -474,6 +496,19 @@ function ProductModal({ onClose, onSubmit, initialData, categories }: { onClose:
                                 <option value="">Select Category...</option>
                                 {categories.map(c => (
                                     <option key={c.id} value={c.id}>{c.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-foreground/40 uppercase tracking-widest pl-1">Brand</label>
+                            <select
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 border border-black/5 focus:outline-none focus:border-primary transition-all font-medium appearance-none"
+                                value={formData.brandId || ""}
+                                onChange={e => setFormData({ ...formData, brandId: e.target.value })}
+                            >
+                                <option value="">Select Brand...</option>
+                                {brands.map(b => (
+                                    <option key={b.id} value={b.id}>{b.name}</option>
                                 ))}
                             </select>
                         </div>

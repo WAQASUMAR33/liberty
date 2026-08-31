@@ -15,6 +15,7 @@ export async function GET(request: Request) {
             orderBy: { date: "asc" },
             include: {
                 sale: true,
+                saleReturn: true,
                 payment: true,
             },
         });

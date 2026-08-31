@@ -41,6 +41,14 @@ model Category {
   updatedAt     DateTime      @updatedAt
 }
 
+model Brand {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
 model Product {
   id             String       @id @default(cuid())
   code           String       @unique
@@ -51,7 +59,10 @@ model Product {
   stock          Int          @default(0)
   categoryId     String?
   category       Category?    @relation(fields: [categoryId], references: [id])
+  brandId        String?
+  brand          Brand?       @relation(fields: [brandId], references: [id])
   saleItems      SaleItem[]
+  saleReturnItems SaleReturnItem[]
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 }
@@ -64,6 +75,7 @@ model Customer {
   balance    Decimal    @default(0) @db.Decimal(15, 2)
   address    String?
   sales      Sale[]
+  returns    SaleReturn[]
   ledgers    Ledger[]
   payments   Payment[]
   createdAt  DateTime   @default(now())
@@ -83,6 +95,7 @@ model Sale {
   paidAmount  Decimal    @default(0) @db.Decimal(15, 2)
   balance     Decimal    @default(0) @db.Decimal(15, 2)
   items       SaleItem[]
+  returns     SaleReturn[]
   ledgers     Ledger[]
   createdAt   DateTime   @default(now())
 }
@@ -100,20 +113,51 @@ model SaleItem {
   subtotal  Decimal @db.Decimal(15, 2)
 }
 
+model SaleReturn {
+  id           String           @id @default(cuid())
+  returnNumber String           @unique
+  date         DateTime         @default(now())
+  saleId       String?
+  sale         Sale?            @relation(fields: [saleId], references: [id])
+  customerId   String
+  customer     Customer         @relation(fields: [customerId], references: [id])
+  totalAmount  Decimal          @db.Decimal(15, 2)
+  refundAmount Decimal          @default(0) @db.Decimal(15, 2)
+  creditAmount Decimal          @default(0) @db.Decimal(15, 2)
+  remarks      String?
+  items        SaleReturnItem[]
+  ledgers      Ledger[]
+  createdAt    DateTime         @default(now())
+}
+
+model SaleReturnItem {
+  id           String     @id @default(cuid())
+  saleReturnId String
+  saleReturn   SaleReturn @relation(fields: [saleReturnId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product    @relation(fields: [productId], references: [id])
+  name         String     @default("")
+  quantity     Int
+  price        Decimal    @db.Decimal(10, 2)
+  subtotal     Decimal    @db.Decimal(15, 2)
+}
+
 model Ledger {
-  id          String   @id @default(cuid())
-  customerId  String
-  customer    Customer @relation(fields: [customerId], references: [id])
-  date        DateTime @default(now())
-  description String
-  debit       Decimal  @default(0) @db.Decimal(15, 2)
-  credit      Decimal  @default(0) @db.Decimal(15, 2)
-  balance     Decimal  @db.Decimal(15, 2)
-  saleId      String?
-  sale        Sale?    @relation(fields: [saleId], references: [id])
-  paymentId   String?
-  payment     Payment? @relation(fields: [paymentId], references: [id])
-  createdAt   DateTime @default(now())
+  id           String      @id @default(cuid())
+  customerId   String
+  customer     Customer    @relation(fields: [customerId], references: [id])
+  date         DateTime    @default(now())
+  description  String
+  debit        Decimal     @default(0) @db.Decimal(15, 2)
+  credit       Decimal     @default(0) @db.Decimal(15, 2)
+  balance      Decimal     @db.Decimal(15, 2)
+  saleId       String?
+  sale         Sale?       @relation(fields: [saleId], references: [id])
+  saleReturnId String?
+  saleReturn   SaleReturn? @relation(fields: [saleReturnId], references: [id])
+  paymentId    String?
+  payment      Payment?    @relation(fields: [paymentId], references: [id])
+  createdAt    DateTime    @default(now())
 }
 
 model Payment {

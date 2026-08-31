@@ -15,6 +15,7 @@ export async function GET(request: Request) {
             } : {},
             include: {
                 category: true,
+                brand: true,
             },
             orderBy: { createdAt: "desc" },
         });
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
                 retailPrice: json.retailPrice,
                 stock: parseInt(json.stock) || 0,
                 categoryId: json.categoryId || null,
+                brandId: json.brandId || null,
             },
         });
 

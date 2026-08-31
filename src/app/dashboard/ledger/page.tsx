@@ -342,6 +342,7 @@ export default function LedgerPage() {
                                                     <td className="px-6 py-4">
                                                         <p className="font-bold text-sm text-foreground">{entry.description}</p>
                                                         {entry.sale && <p className="text-[10px] text-primary uppercase font-black mt-1">Ref: {entry.sale.billNumber}</p>}
+                                                        {entry.saleReturn && <p className="text-[10px] text-red-600 uppercase font-black mt-1">Return Ref: {entry.saleReturn.returnNumber}</p>}
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
                                                         {Number(entry.debit) > 0 ? (
