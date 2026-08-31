@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "seed:admin": "node scripts/create-admin.js",
     "electron:dev": "electron .",
     "electron:build": "next build && node scripts/prepare-standalone.js && electron-builder --win --x64",
     "electron:pack": "electron-builder --win --x64 --dir"
