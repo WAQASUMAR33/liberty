@@ -231,10 +231,12 @@ export default function SalesPage() {
 }
 
 function reprintReceipt(sale: any) {
-    const totalItemDiscounts = sale.items.reduce((sum: number, item: any) => sum + (Number(item.discount) || 0), 0);
-    const billDiscountValue = Number(sale.discount) - totalItemDiscounts;
-    const subtotalAfterItemDiscounts = Number(sale.total) - totalItemDiscounts;
-    const billDiscountPercentage = subtotalAfterItemDiscounts > 0 ? (billDiscountValue / subtotalAfterItemDiscounts) * 100 : 0;
+    const itemsGross = sale.items?.reduce((sum: number, it: any) => sum + (Number(it.price) * Number(it.quantity)), 0) || Number(sale.total || 0);
+    const totalItemDiscounts = sale.items?.reduce((sum: number, item: any) => sum + (Number(item.discount) || 0), 0) || 0;
+    const totalDiscount = Number(sale.discount || 0);
+    const billDiscountValue = Math.max(0, totalDiscount - totalItemDiscounts);
+    const billDiscountPercentage = itemsGross > 0 ? (billDiscountValue / itemsGross) * 100 : 0;
+    const subtotalAfterItemDiscounts = itemsGross - totalItemDiscounts;
 
     const printWindow = window.open('', '_blank', sale.type === 'WHOLESALE' ? 'width=800,height=1000' : 'width=300,height=600');
     if (!printWindow) return;
@@ -368,22 +370,20 @@ function reprintReceipt(sale: any) {
     <meta charset="UTF-8">
     <title>Receipt - ${sale.billNumber}</title>
     <style>
-        @page { size: 80mm auto; margin: 5mm; }
-        body { font-family: 'Arial', 'Helvetica', sans-serif; font-size: 12px; line-height: 1.3; color: black; font-weight: bold; margin: 0; padding: 8px; background: white; }
-        * { color: black !important; font-weight: bold !important; }
-        .header { text-align: center; margin-bottom: 8px; }
-        .header h1 { font-size: 16px; margin: 0 0 2px 0; letter-spacing: 2px; }
-        .header p { margin: 0; font-size: 9px; }
+        @page { size: 80mm auto; margin: 4mm; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10.5px; line-height: 1.3; color: black; font-weight: 600; margin: 0; padding: 2px 4px; background: white; }
+        .header { text-align: center; margin-bottom: 6px; }
+        .header img { height: 95px; max-width: 100%; object-fit: contain; margin: 0 auto 4px auto; display: block; }
+        .header p { margin: 1px 0; font-size: 9px; font-weight: 600; }
         .divider { border-top: 1px dashed black; margin: 6px 0; }
-        .divider-double { border-top: 3px double black; margin: 6px 0; }
-        .info-row { display: flex; justify-content: space-between; font-size: 9px; margin: 1px 0; }
-        .items-header { display: grid; grid-template-columns: 3fr 1fr 1.5fr 1.5fr 2fr; gap: 2px; font-size: 10px; margin: 6px 0 3px 0; text-transform: uppercase; }
-        .item { margin-bottom: 6px; font-size: 9px; }
-        .item-name { margin-bottom: 1px; }
-        .item-row { display: grid; grid-template-columns: 3fr 1fr 1.5fr 1.5fr 2fr; gap: 2px; font-size: 9px; }
-        .total-row { display: flex; justify-content: space-between; font-size: 10px; margin: 3px 0; }
-        .total-row.grand { font-size: 13px; margin: 6px 0; }
-        .footer { text-align: center; margin-top: 10px; font-size: 9px; }
+        .divider-double { border-top: 2px dashed black; margin: 6px 0; }
+        .info-row { display: flex; justify-content: space-between; font-size: 10px; margin: 2px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 5px 0; }
+        th { font-weight: 800; text-transform: uppercase; font-size: 9.5px; padding: 3px 1px; border-bottom: 1px dashed #000; }
+        td { padding: 3px 1px; font-size: 9.5px; vertical-align: top; }
+        .total-row { display: flex; justify-content: space-between; font-size: 10px; margin: 2px 0; }
+        .total-row.grand { font-size: 13px; font-weight: 900; margin: 4px 0; }
+        .footer { text-align: center; margin-top: 8px; font-size: 8.5px; }
         .footer p { margin: 2px 0; }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
@@ -401,27 +401,44 @@ function reprintReceipt(sale: any) {
     <div class="info-row"><span>Customer:</span><span>${sale.customer?.name || 'Walk-in'}</span></div>
     <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
     <div class="divider"></div>
-    <div class="items-header">
-        <div>Item</div><div class="text-center">Qty</div><div class="text-right">Price</div><div class="text-right">Disc</div><div class="text-right">Total</div>
-    </div>
-    ${sale.items.map((item: any) => {
-        const itemTotal = Number(item.price) * Number(item.quantity);
-        const itemDiscount = Number(item.discount) || 0;
-        const itemAmount = itemTotal - itemDiscount;
-        return `<div class="item">
-            <div class="item-name">${item.name}</div>
-            <div class="item-row">
-                <div></div>
-                <div class="text-center">${item.quantity}</div>
-                <div class="text-right">${Number(item.price).toFixed(2)}</div>
-                <div class="text-right">${itemDiscount.toFixed(2)}</div>
-                <div class="text-right">${itemAmount.toFixed(2)}</div>
-            </div>
-        </div>`;
-    }).join('')}
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: left;">ITEM</th>
+                <th class="text-center" style="width: 10%;">QTY</th>
+                <th class="text-right" style="width: 22%;">PRICE</th>
+                <th class="text-right" style="width: 18%;">DISC</th>
+                <th class="text-right" style="width: 24%;">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${sale.items.map((item: any) => {
+                const itemPrice = Number(item.price);
+                const itemQty = Number(item.quantity);
+                const itemDiscount = Number(item.discount || 0);
+                const itemTotal = (itemPrice * itemQty) - itemDiscount;
+                return `
+                    <tr>
+                        <td style="text-align: left; word-break: break-word;">${item.name}</td>
+                        <td class="text-center">${itemQty}</td>
+                        <td class="text-right">${itemPrice.toFixed(2)}</td>
+                        <td class="text-right">${itemDiscount.toFixed(2)}</td>
+                        <td class="text-right">${itemTotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            }).join('')}
+        </tbody>
+    </table>
     <div class="divider"></div>
-    <div class="total-row"><span>Subtotal:</span><span>${subtotalAfterItemDiscounts.toFixed(2)}</span></div>
-    ${billDiscountValue > 0 ? `<div class="total-row"><span>Bill Disc (${billDiscountPercentage.toFixed(0)}%):</span><span>- ${billDiscountValue.toFixed(2)}</span></div>` : ''}
+    <div class="total-row"><span>Subtotal:</span><span>${itemsGross.toFixed(2)}</span></div>
+    ${totalItemDiscounts > 0 && billDiscountValue > 0 ? `
+        <div class="total-row"><span>Item Discount:</span><span>- ${totalItemDiscounts.toFixed(2)}</span></div>
+        <div class="total-row"><span>Bill Discount ${billDiscountPercentage > 0 ? `(${billDiscountPercentage.toFixed(0)}%)` : ''}:</span><span>- ${billDiscountValue.toFixed(2)}</span></div>
+    ` : billDiscountValue > 0 ? `
+        <div class="total-row"><span>Bill Discount ${billDiscountPercentage > 0 ? `(${billDiscountPercentage.toFixed(0)}%)` : ''}:</span><span>- ${billDiscountValue.toFixed(2)}</span></div>
+    ` : totalItemDiscounts > 0 ? `
+        <div class="total-row"><span>Bill Discount:</span><span>- ${totalItemDiscounts.toFixed(2)}</span></div>
+    ` : ''}
     <div class="divider-double"></div>
     <div class="total-row grand"><span>TOTAL:</span><span>${Number(sale.netTotal).toFixed(2)}</span></div>
     <div class="divider-double"></div>

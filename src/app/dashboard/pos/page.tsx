@@ -666,6 +666,13 @@ function POSContent() {
         }
 
         // Thermal standard receipt
+        const itemsGross = record.items.reduce((sum: number, it: any) => sum + (Number(it.price) * Number(it.quantity)), 0);
+        const itemDiscounts = record.items.reduce((sum: number, it: any) => sum + (Number(it.discount || 0)), 0);
+        const totalSaleDiscount = Number(record.discount || 0);
+        const billDiscountValue = Math.max(0, totalSaleDiscount - itemDiscounts);
+        const billDiscountPercentage = itemsGross > 0 ? (billDiscountValue / itemsGross) * 100 : 0;
+        const paymentMethod = Number(record.paidAmount) >= Number(record.netTotal) ? 'Cash' : (Number(record.paidAmount) > 0 ? 'Partial' : 'Credit');
+
         const thermalHTML = `
             <!DOCTYPE html>
             <html>
@@ -673,53 +680,92 @@ function POSContent() {
                 <meta charset="UTF-8">
                 <title>Receipt - ${record.billNumber}</title>
                 <style>
-                    @page { size: 80mm auto; margin: 5mm; }
-                    body { font-family: Arial, sans-serif; font-size: 11px; padding: 5px; color: black; font-weight: bold; }
-                    .header { text-align: center; margin-bottom: 8px; }
-                    .divider { border-top: 1px dashed black; margin: 6px 0; }
-                    .divider-double { border-top: 3px double black; margin: 6px 0; }
-                    .row { display: flex; justify-content: space-between; margin: 2px 0; }
-                    table { width: 100%; border-collapse: collapse; margin: 6px 0; }
-                    th, td { text-align: left; padding: 2px 0; }
+                    @page { size: 80mm auto; margin: 4mm; }
+                    body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10.5px; padding: 2px 4px; color: #000; font-weight: 600; line-height: 1.3; }
+                    .header { text-align: center; margin-bottom: 6px; }
+                    .header img { height: 95px; max-width: 100%; object-fit: contain; margin: 0 auto 4px auto; display: block; }
+                    .header p { margin: 1px 0; font-size: 9px; font-weight: 600; }
+                    .divider { border-top: 1px dashed #000; margin: 6px 0; }
+                    .divider-double { border-top: 2px dashed #000; margin: 6px 0; }
+                    .info-row { display: flex; justify-content: space-between; margin: 2px 0; font-size: 10px; }
+                    table { width: 100%; border-collapse: collapse; margin: 5px 0; }
+                    th { font-weight: 800; text-transform: uppercase; font-size: 9.5px; padding: 3px 1px; border-bottom: 1px dashed #000; }
+                    td { padding: 3px 1px; font-size: 9.5px; vertical-align: top; }
                     .text-right { text-align: right; }
                     .text-center { text-align: center; }
+                    .total-row { display: flex; justify-content: space-between; font-size: 10px; margin: 2px 0; }
+                    .total-row.grand { font-size: 13px; font-weight: 900; margin: 4px 0; }
+                    .footer { text-align: center; margin-top: 8px; font-size: 8.5px; }
+                    .footer p { margin: 2px 0; }
                 </style>
             </head>
             <body>
                 <div class="header">
-                    <h2 style="margin:0;">Liberty Kollection</h2>
-                    <p style="margin:2px 0; font-size:9px;">Committee Bazar, Mandi Bahauddin</p>
-                    <p style="margin:0; font-size:9px;">0345 5754717</p>
+                    <img src="${window.location.origin}/libertycollection.png" alt="Liberty Kollection" />
+                    <p>Chapai wali gali ,Committe Bazar , Mandi Bahauddin</p>
+                    <p>0345 5754717 | 0546-506717</p>
                 </div>
                 <div class="divider"></div>
-                <div class="row"><span>Bill #:</span> <span>${record.billNumber}</span></div>
-                <div class="row"><span>Date:</span> <span>${new Date(record.date).toLocaleDateString()}</span></div>
-                <div class="row"><span>Customer:</span> <span>${record.customer?.name}</span></div>
+                <div class="info-row"><span>Receipt #:</span><span>${record.billNumber}</span></div>
+                <div class="info-row"><span>Date:</span><span>${new Date(record.date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</span></div>
+                <div class="info-row"><span>Customer:</span><span>${record.customer?.name || 'Walk-in'}</span></div>
+                <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
                 <div class="divider"></div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Item</th>
-                            <th class="text-center">Qty</th>
-                            <th class="text-right">Total</th>
+                            <th style="text-align: left;">ITEM</th>
+                            <th class="text-center" style="width: 10%;">QTY</th>
+                            <th class="text-right" style="width: 22%;">PRICE</th>
+                            <th class="text-right" style="width: 18%;">DISC</th>
+                            <th class="text-right" style="width: 24%;">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${record.items.map((item: any) => `
-                            <tr>
-                                <td>${item.name}</td>
-                                <td class="text-center">${item.quantity}</td>
-                                <td class="text-right">${(Number(item.price) * item.quantity - Number(item.discount || 0)).toFixed(2)}</td>
-                            </tr>
-                        `).join('')}
+                        ${record.items.map((item: any) => {
+                            const itemPrice = Number(item.price);
+                            const itemQty = Number(item.quantity);
+                            const itemDiscount = Number(item.discount || 0);
+                            const itemTotal = (itemPrice * itemQty) - itemDiscount;
+                            return `
+                                <tr>
+                                    <td style="text-align: left; word-break: break-word;">${item.name}</td>
+                                    <td class="text-center">${itemQty}</td>
+                                    <td class="text-right">${itemPrice.toFixed(2)}</td>
+                                    <td class="text-right">${itemDiscount.toFixed(2)}</td>
+                                    <td class="text-right">${itemTotal.toFixed(2)}</td>
+                                </tr>
+                            `;
+                        }).join('')}
                     </tbody>
                 </table>
                 <div class="divider"></div>
-                <div class="row"><span>Net Total:</span> <span>${Number(record.netTotal).toFixed(2)}</span></div>
-                <div class="row"><span>Paid:</span> <span>${Number(record.paidAmount).toFixed(2)}</span></div>
-                <div class="row"><span>Balance:</span> <span>${Number(record.balance).toFixed(2)}</span></div>
+                <div class="total-row"><span>Subtotal:</span><span>${itemsGross.toFixed(2)}</span></div>
+                ${itemDiscounts > 0 && billDiscountValue > 0 ? `
+                    <div class="total-row"><span>Item Discount:</span><span>- ${itemDiscounts.toFixed(2)}</span></div>
+                    <div class="total-row"><span>Bill Discount ${billDiscountPercentage > 0 ? `(${billDiscountPercentage.toFixed(0)}%)` : ''}:</span><span>- ${billDiscountValue.toFixed(2)}</span></div>
+                ` : billDiscountValue > 0 ? `
+                    <div class="total-row"><span>Bill Discount ${billDiscountPercentage > 0 ? `(${billDiscountPercentage.toFixed(0)}%)` : ''}:</span><span>- ${billDiscountValue.toFixed(2)}</span></div>
+                ` : itemDiscounts > 0 ? `
+                    <div class="total-row"><span>Bill Discount:</span><span>- ${itemDiscounts.toFixed(2)}</span></div>
+                ` : ''}
+                <div class="divider-double"></div>
+                <div class="total-row grand"><span>TOTAL:</span><span>${Number(record.netTotal).toFixed(2)}</span></div>
+                <div class="divider-double"></div>
+                <div class="total-row"><span>Payment Method:</span><span>${paymentMethod}</span></div>
+                <div class="total-row"><span>Amount Received:</span><span>${Number(record.paidAmount || 0).toFixed(2)}</span></div>
+                ${Number(record.balance || 0) > 0 ? `<div class="total-row" style="color: #c00;"><span>Balance Due:</span><span>${Number(record.balance).toFixed(2)}</span></div>` : ''}
                 <div class="divider"></div>
-                <p style="text-align:center; font-size:9px; margin-top:8px;">Thank you for shopping with us!</p>
+                <div class="footer">
+                    <p style="margin-bottom: 4px; line-height: 1.35;">
+                        No item can be returned after sale.<br>
+                        Items can be exchanged only within 3 days of purchase.<br>
+                        Receipt must be presented for exchange.
+                    </p>
+                    <div class="divider"></div>
+                    <p>For queries: 0345 5754717 | 0546-506717</p>
+                    <p style="font-size: 7.5px; margin-top: 5px; opacity: 0.8;">Powered By RapidTechPro</p>
+                </div>
                 <script>
                     window.onload = function() { window.print(); window.onafterprint = function() { window.close(); }; };
                 </script>
@@ -1596,55 +1642,164 @@ function POSContent() {
                             className="relative bg-white text-black p-8 rounded-none-none shadow-2xl max-h-[90vh] overflow-y-auto w-full max-w-lg z-10"
                         >
                             <div className="text-center space-y-1 mb-4 border-b border-dashed border-black/20 pb-4">
-                                <h3 className="font-black text-xl">Liberty Kollection</h3>
-                                <p className="text-xs text-black/60">Chapai wali gali, Committee Bazar, Mandi Bahauddin</p>
-                                <p className="text-xs text-black/60">0345 5754717 | 0546-506717</p>
+                                <img src="/libertycollection.png" alt="Liberty Kollection" className="h-16 mx-auto object-contain mb-1" />
+                                <p className="text-xs text-black/70 font-medium">Chapai wali gali, Committe Bazar, Mandi Bahauddin</p>
+                                <p className="text-xs text-black/70 font-medium">0345 5754717 | 0546-506717</p>
                                 <div className="mt-2 inline-block px-3 py-1 rounded-none-none text-xs font-black uppercase bg-black/5">
                                     {lastReturn ? "RETURN CREDIT VOUCHER" : (lastSale?.type || "SALE RECEIPT")}
                                 </div>
                             </div>
 
                             {/* Summary Details */}
-                            <div className="space-y-2 text-xs mb-4">
+                            <div className="space-y-1.5 text-xs mb-4">
                                 <div className="flex justify-between">
-                                    <span className="text-black/60">Reference #:</span>
+                                    <span className="text-black/60">Receipt #:</span>
                                     <span className="font-bold">{lastReturn ? lastReturn.returnNumber : lastSale.billNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-black/60">Date:</span>
-                                    <span className="font-bold">{new Date((lastReturn || lastSale).date).toLocaleString()}</span>
+                                    <span className="font-bold">{new Date((lastReturn || lastSale).date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-black/60">Customer:</span>
-                                    <span className="font-bold">{(lastReturn || lastSale).customer?.name}</span>
+                                    <span className="font-bold">{(lastReturn || lastSale).customer?.name || "Walk-in"}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-black/60">Cashier:</span>
+                                    <span className="font-bold">Admin</span>
                                 </div>
                             </div>
 
                             {/* Items List */}
-                            <div className="border-t border-b border-black/20 py-3 my-3 space-y-2 text-xs">
-                                {(lastReturn || lastSale).items.map((item: any, i: number) => (
-                                    <div key={i} className="flex justify-between items-center">
-                                        <div>
-                                            <p className="font-bold">{item.name}</p>
-                                            <p className="text-[10px] text-black/50">{item.quantity} x RS {Number(item.price).toFixed(2)}</p>
-                                        </div>
-                                        <span className="font-black">
-                                            RS {(Number(item.price) * Number(item.quantity) - Number(item.discount || 0)).toFixed(2)}
-                                        </span>
-                                    </div>
-                                ))}
+                            <div className="border-t border-b border-black/20 py-3 my-3">
+                                <table className="w-full text-xs">
+                                    <thead>
+                                        <tr className="border-b border-black/10 text-black/60 font-bold uppercase text-[10px]">
+                                            <th className="text-left pb-2">Item</th>
+                                            <th className="text-center pb-2 w-10">Qty</th>
+                                            <th className="text-right pb-2 w-16">Price</th>
+                                            <th className="text-right pb-2 w-14">Disc</th>
+                                            <th className="text-right pb-2 w-20">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-black/5">
+                                        {(lastReturn || lastSale).items.map((item: any, i: number) => {
+                                            const qty = Number(item.quantity || 0);
+                                            const price = Number(item.price || 0);
+                                            const discount = Number(item.discount || 0);
+                                            const total = (price * qty) - discount;
+                                            return (
+                                                <tr key={i} className="align-middle">
+                                                    <td className="py-2 text-left font-semibold text-black pr-1">
+                                                        {item.name}
+                                                    </td>
+                                                    <td className="py-2 text-center text-black/70">
+                                                        {qty}
+                                                    </td>
+                                                    <td className="py-2 text-right text-black/70 whitespace-nowrap">
+                                                        {price.toFixed(2)}
+                                                    </td>
+                                                    <td className="py-2 text-right text-black/70 whitespace-nowrap">
+                                                        {discount.toFixed(2)}
+                                                    </td>
+                                                    <td className="py-2 text-right font-bold text-black whitespace-nowrap">
+                                                        {total.toFixed(2)}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
                             </div>
 
                             {/* Totals */}
-                            <div className="space-y-1 text-xs">
-                                <div className="flex justify-between text-sm font-black pt-2 border-t border-black">
-                                    <span>TOTAL:</span>
-                                    <span>RS {Number((lastReturn ? lastReturn.totalAmount : lastSale.netTotal)).toFixed(2)}</span>
+                            <div className="space-y-1.5 text-xs">
+                                {(() => {
+                                    if (lastSale) {
+                                        const itemsGross = lastSale.items?.reduce((sum: number, it: any) => sum + (Number(it.price) * Number(it.quantity)), 0) || Number(lastSale.total || 0);
+                                        const itemDisc = lastSale.items?.reduce((sum: number, it: any) => sum + (Number(it.discount || 0)), 0) || 0;
+                                        const totalSaleDisc = Number(lastSale.discount || 0);
+                                        const billDiscVal = Math.max(0, totalSaleDisc - itemDisc);
+                                        const billDiscPct = itemsGross > 0 ? (billDiscVal / itemsGross) * 100 : 0;
+                                        const paymentMethod = Number(lastSale.paidAmount) >= Number(lastSale.netTotal) ? 'Cash' : (Number(lastSale.paidAmount) > 0 ? 'Partial' : 'Credit');
+
+                                        return (
+                                            <>
+                                                <div className="flex justify-between text-black/70">
+                                                    <span>Subtotal:</span>
+                                                    <span>RS {itemsGross.toFixed(2)}</span>
+                                                </div>
+                                                {itemDisc > 0 && billDiscVal > 0 ? (
+                                                    <>
+                                                        <div className="flex justify-between text-red-600 font-semibold">
+                                                            <span>Item Discount:</span>
+                                                            <span>- RS {itemDisc.toFixed(2)}</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-red-600 font-semibold">
+                                                            <span>Bill Discount {billDiscPct > 0 ? `(${billDiscPct.toFixed(0)}%)` : ''}:</span>
+                                                            <span>- RS {billDiscVal.toFixed(2)}</span>
+                                                        </div>
+                                                    </>
+                                                ) : billDiscVal > 0 ? (
+                                                    <div className="flex justify-between text-red-600 font-semibold">
+                                                        <span>Bill Discount {billDiscPct > 0 ? `(${billDiscPct.toFixed(0)}%)` : ''}:</span>
+                                                        <span>- RS {billDiscVal.toFixed(2)}</span>
+                                                    </div>
+                                                ) : itemDisc > 0 ? (
+                                                    <div className="flex justify-between text-red-600 font-semibold">
+                                                        <span>Bill Discount:</span>
+                                                        <span>- RS {itemDisc.toFixed(2)}</span>
+                                                    </div>
+                                                ) : null}
+                                                <div className="flex justify-between text-sm font-black pt-2 border-t-2 border-dashed border-black">
+                                                    <span>TOTAL:</span>
+                                                    <span>RS {Number(lastSale.netTotal).toFixed(2)}</span>
+                                                </div>
+                                                {lastSale.type !== 'QUOTATION' && (
+                                                    <div className="pt-2 border-t border-black/10 space-y-1">
+                                                        <div className="flex justify-between text-black/70">
+                                                            <span>Payment Method:</span>
+                                                            <span className="font-semibold">{paymentMethod}</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-black/70">
+                                                            <span>Amount Received:</span>
+                                                            <span className="font-semibold">RS {Number(lastSale.paidAmount || 0).toFixed(2)}</span>
+                                                        </div>
+                                                        {Number(lastSale.balance || 0) > 0 && (
+                                                            <div className="flex justify-between text-red-600 font-bold">
+                                                                <span>Balance Due:</span>
+                                                                <span>RS {Number(lastSale.balance).toFixed(2)}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </>
+                                        );
+                                    } else if (lastReturn) {
+                                        return (
+                                            <div className="flex justify-between text-sm font-black pt-2 border-t border-black">
+                                                <span>TOTAL RETURN VALUE:</span>
+                                                <span>RS {Number(lastReturn.totalAmount).toFixed(2)}</span>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })()}
+                            </div>
+
+                            {/* Footer Instructions */}
+                            <div className="border-t border-dashed border-black/20 pt-3 mt-4 text-center text-[10px] text-black/75 space-y-1">
+                                <p className="font-bold text-black">No item can be returned after sale.</p>
+                                <p>Items can be exchanged only within 3 days of purchase.</p>
+                                <p>Receipt must be presented for exchange.</p>
+                                <div className="border-t border-black/10 pt-2 mt-2 text-[9px] text-black/60">
+                                    <p>For queries: 0345 5754717 | 0546-506717</p>
+                                    <p className="text-[8px] mt-0.5 opacity-75">Powered By RapidTechPro</p>
                                 </div>
                             </div>
 
                             {/* Print / Action Buttons */}
-                            <div className="flex gap-3 mt-6">
+                            <div className="flex gap-3 mt-5">
                                 <button
                                     onClick={handlePrint}
                                     className="flex-1 py-3 rounded-none-none bg-black text-white font-bold flex items-center justify-center gap-2 hover:bg-black/80 transition-all"
