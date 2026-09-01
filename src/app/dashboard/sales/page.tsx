@@ -267,38 +267,39 @@ function reprintReceipt(sale: any) {
     <meta charset="UTF-8">
     <title>Invoice - ${sale.billNumber}</title>
     <style>
-        @page { size: A4; margin: 10mm; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 11px; color: black; margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; }
-        .container { padding: 20px; border: 1px solid #000; min-height: 275mm; position: relative; }
-        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
-        .store-info h1 { font-size: 28px; margin: 0; font-weight: 800; letter-spacing: 1px; }
-        .store-info p { margin: 2px 0; font-size: 12px; }
+        @page { size: A4; margin: 8mm; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; color: #000; margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; }
+        .container { padding: 24px; border: 2px solid #000; min-height: 265mm; position: relative; box-sizing: border-box; }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; }
+        .store-info h1 { font-size: 26px; margin: 0 0 2px 0; font-weight: 900; letter-spacing: 0.5px; }
+        .store-info p { margin: 2px 0; font-size: 11px; font-weight: 500; }
         .invoice-title-box { text-align: right; }
-        .invoice-title-box h2 { font-size: 22px; margin: 0; text-decoration: underline; letter-spacing: 2px; }
-        .customer-info { margin-bottom: 15px; font-size: 13px; }
-        .info-row { display: flex; margin-bottom: 4px; }
-        .info-label { width: 120px; font-weight: 500; }
-        .info-value { font-weight: 400; text-transform: uppercase; }
+        .invoice-title-box h2 { font-size: 22px; margin: 0; text-decoration: underline; letter-spacing: 1px; font-weight: 900; }
+        .customer-info { margin-bottom: 14px; font-size: 12px; line-height: 1.5; }
+        .info-row { display: flex; margin-bottom: 3px; }
+        .info-label { width: 140px; font-weight: 600; }
+        .info-value { font-weight: 800; text-transform: uppercase; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-        th, td { border: 1px solid #000; padding: 8px; font-weight: 400; }
-        th { background: #f0f0f0 !important; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+        th, td { border: 1px solid #000; padding: 6px 8px; }
+        th { background: #e8e8e8 !important; font-size: 11px; text-transform: uppercase; font-weight: 800; }
+        td { font-size: 11px; font-weight: 600; }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .footer-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; }
-        .footer-left { flex: 1; }
+        .footer-left { flex: 1; padding-right: 20px; }
         .footer-right { width: 320px; }
-        .sum-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; border-bottom: 1px solid #eee; }
-        .sum-row.grand { border-top: 2px solid #000; border-bottom: 2px solid #000; margin-top: 8px; padding: 8px 0; font-size: 18px; }
-        .urdu-note { font-size: 18px; font-weight: 800; text-align: right; margin: 15px 0; font-family: 'Urdu Typesetting', 'Jameel Noori Nastaleeq', Arial; }
-        .amount-words { font-size: 14px; font-weight: 800; text-decoration: underline; margin-top: 10px; }
-        .barcode-box { margin-top: 5px; font-size: 10px; }
+        .sum-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid #ddd; }
+        .sum-row.grand { border-top: 2px solid #000; border-bottom: 2px solid #000; margin-top: 6px; padding: 6px 0; font-size: 17px; font-weight: 900; }
+        .urdu-note { font-size: 15px; font-weight: 800; text-align: left; margin: 15px 0 10px 0; font-family: 'Urdu Typesetting', 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', Arial; }
+        .amount-words { font-size: 13px; font-weight: 800; text-decoration: underline; margin-top: 8px; }
+        .barcode-box { margin-top: 2px; font-size: 11px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div style="display: flex; gap: 20px; align-items: center;">
-                <img src="/libertycollection.png" alt="Logo" style="height: 100px;" />
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <img src="${window.location.origin}/libertycollection.png" alt="Logo" style="height: 85px; object-fit: contain;" />
                 <div class="store-info">
                     <h1>Liberty Kollection</h1>
                     <p>Chapai wali gali ,Committe Bazar , Mandi Bahauddin</p>
@@ -307,54 +308,64 @@ function reprintReceipt(sale: any) {
             </div>
             <div class="invoice-title-box">
                 <h2>SALE INVOICE</h2>
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 8px;">
                     <div>Invoice #: <strong>${sale.billNumber}</strong></div>
                     <div class="barcode-box">|||||||||||||||||||||||||</div>
                     <div>Date: <strong>${new Date(sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
                 </div>
             </div>
         </div>
+
         <div class="customer-info">
             <div class="info-row"><span class="info-label">Customer Name:</span> <span class="info-value">${sale.customer?.name || 'Walk-in'}</span></div>
-            <div class="info-row"><span class="info-label">Operator:</span> <span class="info-value">Admin</span></div>
+            <div class="info-row"><span class="info-label">Operator:</span> <span class="info-value">ADMIN</span></div>
             <div class="info-row"><span class="info-label">Location:</span> <span class="info-value">M.B.D</span></div>
         </div>
+
         <table>
             <thead>
                 <tr>
-                    <th style="width: 5%;">Sr. #</th>
-                    <th>Product Name</th>
-                    <th style="width: 15%;" class="text-right">Price</th>
-                    <th style="width: 10%;" class="text-center">Quantity</th>
-                    <th style="width: 15%;" class="text-right">Discount</th>
-                    <th style="width: 20%;" class="text-right">Total</th>
+                    <th style="width: 6%;">SR. #</th>
+                    <th>PRODUCT NAME</th>
+                    <th style="width: 14%;" class="text-right">PRICE</th>
+                    <th style="width: 12%;" class="text-center">QUANTITY</th>
+                    <th style="width: 14%;" class="text-right">DISCOUNT</th>
+                    <th style="width: 16%;" class="text-right">TOTAL</th>
                 </tr>
             </thead>
             <tbody>
-                ${sale.items.map((item: any, i: number) => `
-                    <tr>
-                        <td class="text-center">${i + 1}</td>
-                        <td>${item.name}</td>
-                        <td class="text-right">${Number(item.price).toFixed(2)}</td>
-                        <td class="text-center">${item.quantity}</td>
-                        <td class="text-right">${Number(item.discount || 0).toFixed(2)}</td>
-                        <td class="text-right">${(Number(item.price) * item.quantity - Number(item.discount || 0)).toFixed(2)}</td>
-                    </tr>
-                `).join('')}
+                ${sale.items.map((item: any, i: number) => {
+                    const itemPrice = Number(item.price);
+                    const itemQty = Number(item.quantity);
+                    const itemDiscount = Number(item.discount || 0);
+                    const itemTotal = (itemPrice * itemQty) - itemDiscount;
+                    return `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                            <td>${item.name}</td>
+                            <td class="text-right">${itemPrice.toFixed(2)}</td>
+                            <td class="text-center">${itemQty}</td>
+                            <td class="text-right">${itemDiscount.toFixed(2)}</td>
+                            <td class="text-right">${itemTotal.toFixed(2)}</td>
+                        </tr>
+                    `;
+                }).join('')}
             </tbody>
         </table>
+
         <div class="footer-flex">
             <div class="footer-left">
                 <div class="urdu-note" dir="rtl">نوٹ: امپورٹڈ، ایکسپائرڈ اور ٹوٹی ہوئی آئٹمز کی واپسی یا تبدیلی نہیں ہوگی۔</div>
-                <div class="amount-words">${getWords(Number(sale.netTotal))}</div>
+                <div class="amount-words">${getWords(Math.round(Number(sale.netTotal)))}</div>
             </div>
             <div class="footer-right">
-                <div class="sum-row"><span>Gross Amount:</span><strong>${subtotalAfterItemDiscounts.toLocaleString()}</strong></div>
-                <div class="sum-row"><span>Bill Discount:</span><strong>${billDiscountValue.toLocaleString()}</strong></div>
-                <div class="sum-row grand"><span>Total Bill Amount:</span><strong>${Number(sale.netTotal).toLocaleString()}</strong></div>
+                <div class="sum-row"><span>Gross Amount:</span><span>${itemsGross.toFixed(2)}</span></div>
+                <div class="sum-row"><span>Bill Discount:</span><span>${billDiscountValue > 0 ? billDiscountValue.toFixed(2) : (totalItemDiscounts > 0 ? totalItemDiscounts.toFixed(2) : '0.00')}</span></div>
+                <div class="sum-row grand"><span>Total Bill Amount:</span><span>${Number(sale.netTotal).toFixed(2)}</span></div>
             </div>
         </div>
-        <div style="position: absolute; bottom: 10px; left: 20px; font-size: 10px; color: #666;">powered by RapidTechPro</div>
+
+        <div style="position: absolute; bottom: 12px; left: 24px; font-size: 10px; color: #666; font-weight: 600;">powered by RapidTechPro</div>
     </div>
     <script>window.onload = function() { window.print(); window.onafterprint = function() { window.close(); }; };</script>
 </body>
