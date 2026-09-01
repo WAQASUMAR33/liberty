@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
         const initialBalance = Number(openingBalance) || 0;
 
-        const supplier = await prisma.$transaction(async (tx) => {
+        const supplier = await prisma.$transaction(async (tx: any) => {
             const created = await tx.supplier.create({
                 data: {
                     name: name.trim(),

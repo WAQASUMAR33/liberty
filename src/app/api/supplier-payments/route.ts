@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Supplier not found" }, { status: 404 });
         }
 
-        const result = await prisma.$transaction(async (tx) => {
+        const result = await prisma.$transaction(async (tx: any) => {
             const currentBalance = Number(supplier.balance);
             const newBalance = currentBalance - payAmount;
 

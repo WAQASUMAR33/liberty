@@ -15,13 +15,13 @@ export async function GET() {
             }
         });
 
-        const enriched = categories.map(cat => ({
+        const enriched = categories.map((cat: any) => ({
             id: cat.id,
             name: cat.name,
             description: cat.description,
             createdAt: cat.createdAt,
-            expenseCount: cat._count.expenses,
-            totalSpent: cat.expenses.reduce((sum, e) => sum + Number(e.amount), 0),
+            expenseCount: cat._count?.expenses || 0,
+            totalSpent: cat.expenses?.reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0,
         }));
 
         return NextResponse.json(enriched);

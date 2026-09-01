@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         const paid = Math.max(0, Number(paidAmount) || 0);
         const unpaidBalance = Math.max(0, netTotal - paid);
 
-        const result = await prisma.$transaction(async (tx) => {
+        const result = await prisma.$transaction(async (tx: any) => {
             // Generate Invoice Number
             let invoiceNumber = customInvoiceNumber ? customInvoiceNumber.trim() : "";
             if (!invoiceNumber) {

@@ -98,7 +98,7 @@ export async function GET() {
 
         // Enrich top products with names and prices
         const topProductsEnriched = await Promise.all(
-            topProducts.map(async (item) => {
+            topProducts.map(async (item: any) => {
                 const product = await prisma.product.findUnique({
                     where: { id: item.productId },
                     select: {
