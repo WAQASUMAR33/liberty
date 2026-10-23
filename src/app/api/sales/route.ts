@@ -36,6 +36,8 @@ export async function POST(request: Request) {
         const {
             customerId,
             date,
+            invoiceDate,
+            billDate,
             type,
             items,
             total,
@@ -44,6 +46,9 @@ export async function POST(request: Request) {
             paidAmount,
             balance
         } = json;
+
+        const resolvedInvoiceDate = invoiceDate ? new Date(invoiceDate) : (date ? new Date(date) : new Date());
+        const resolvedBillDate = billDate ? new Date(billDate) : new Date();
 
         // 1. Transaction to ensure data integrity
         const result = await prisma.$transaction(async (tx: any) => {
@@ -56,7 +61,9 @@ export async function POST(request: Request) {
             const sale = await tx.sale.create({
                 data: {
                     billNumber,
-                    date: date ? new Date(date) : undefined,
+                    date: resolvedInvoiceDate,
+                    invoiceDate: resolvedInvoiceDate,
+                    billDate: resolvedBillDate,
                     type,
                     customerId,
                     total,
@@ -100,7 +107,7 @@ export async function POST(request: Request) {
             await tx.ledger.create({
                 data: {
                     customerId,
-                    date: date ? new Date(date) : undefined,
+                    date: resolvedInvoiceDate,
                     description: `Sale ${billNumber} (${type})`,
                     credit: balance > 0 ? balance : 0,
                     debit: paidAmount,

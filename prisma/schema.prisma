@@ -85,9 +85,11 @@ model Customer {
 
 model Sale {
   id         String       @id @default(cuid())
-  billNumber String       @unique
-  date       DateTime     @default(now())
-  type       BillType
+  billNumber  String       @unique
+  date        DateTime     @default(now())
+  invoiceDate DateTime?    @default(now())
+  billDate    DateTime?    @default(now())
+  type        BillType
   customerId String
   customer   Customer     @relation(fields: [customerId], references: [id])
   total      Decimal      @db.Decimal(15, 2)

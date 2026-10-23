@@ -21,7 +21,8 @@ import {
     Tag,
     DollarSign,
     Box,
-    Barcode
+    Barcode,
+    Calendar
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatCurrency, cn } from "@/lib/utils";
@@ -63,7 +64,10 @@ function POSContent() {
     const [isCreatingCustomer, setIsCreatingCustomer] = useState(false);
 
     // Common Form State
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0]);
+    const [billDate, setBillDate] = useState(new Date().toISOString().split('T')[0]);
+    const date = invoiceDate;
+    const setDate = setInvoiceDate;
     const [cart, setCart] = useState<any[]>([]);
     const [discountType, setDiscountType] = useState<"PERCENT" | "FIXED">("PERCENT");
     const [billDiscountValue, setBillDiscountValue] = useState<number>(0);
@@ -139,6 +143,9 @@ function POSContent() {
                 if (data.customer) {
                     setSelectedCustomer(data.customer);
                     setCustomerSearch(data.customer.name);
+                }
+                if (data.date || data.invoiceDate) {
+                    setInvoiceDate(new Date(data.invoiceDate || data.date).toISOString().split('T')[0]);
                 }
                 setActiveMode("SALE");
                 setBillType(data.type === 'QUOTATION' ? 'RETAIL' : data.type);
@@ -344,7 +351,9 @@ function POSContent() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     customerId: selectedCustomer.id,
-                    date,
+                    invoiceDate,
+                    billDate,
+                    date: invoiceDate,
                     type: activeMode === "QUOTATION" ? "QUOTATION" : billType,
                     items: cart,
                     total: itemsGrossTotal,
@@ -655,7 +664,8 @@ function POSContent() {
                                 <div style="margin-top: 8px;">
                                     <div>Invoice #: <strong>${record.billNumber}</strong></div>
                                     <div class="barcode-box">|||||||||||||||||||||||||</div>
-                                    <div>Date: <strong>${new Date(record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                                    <div>Invoice Date: <strong>${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                                    <div>Bill Generated: <strong>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
                                 </div>
                             </div>
                         </div>
@@ -764,7 +774,8 @@ function POSContent() {
                 </div>
                 <div class="divider"></div>
                 <div class="info-row"><span>Receipt #:</span><span>${record.billNumber}</span></div>
-                <div class="info-row"><span>Date:</span><span>${new Date(record.date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</span></div>
+                <div class="info-row"><span>Invoice Date:</span><span>${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
+                <div class="info-row"><span>Bill Generated:</span><span>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
                 <div class="info-row"><span>Customer:</span><span>${record.customer?.name || 'Walk-in'}</span></div>
                 <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
                 <div class="divider"></div>
@@ -1495,15 +1506,32 @@ function POSContent() {
                                 Payment Summary
                             </h3>
 
-                            {/* Date */}
-                            <div>
-                                <label className="text-[10px] font-bold text-foreground/40 uppercase block mb-1">Invoice Date</label>
-                                <input
-                                    type="date"
-                                    className="w-full px-4 py-2.5 rounded-none-none bg-black/5 border border-black/5 font-bold text-sm focus:outline-none"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                />
+                            {/* Dates Grid: Invoice Date & Bill Generated Date */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label className="text-[10px] font-bold text-foreground/50 uppercase mb-1 flex items-center gap-1">
+                                        <Calendar className="w-3 h-3 text-primary" />
+                                        Invoice Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="w-full px-3 py-2 rounded-none-none bg-black/5 border border-black/5 font-bold text-xs focus:outline-none focus:border-primary/50 transition-colors"
+                                        value={invoiceDate}
+                                        onChange={(e) => setInvoiceDate(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-bold text-foreground/50 uppercase mb-1 flex items-center gap-1">
+                                        <Calendar className="w-3 h-3 text-emerald-600" />
+                                        Bill Generated Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="w-full px-3 py-2 rounded-none-none bg-black/5 border border-black/5 font-bold text-xs focus:outline-none focus:border-primary/50 transition-colors"
+                                        value={billDate}
+                                        onChange={(e) => setBillDate(e.target.value)}
+                                    />
+                                </div>
                             </div>
 
                             {/* Subtotal */}
@@ -1714,9 +1742,15 @@ function POSContent() {
                                     <span className="font-bold">{lastReturn ? lastReturn.returnNumber : lastSale.billNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-black/60">Date:</span>
-                                    <span className="font-bold">{new Date((lastReturn || lastSale).date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</span>
+                                    <span className="text-black/60">Invoice Date:</span>
+                                    <span className="font-bold">{new Date((lastReturn || lastSale).invoiceDate || (lastReturn || lastSale).date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                 </div>
+                                {lastSale && (
+                                    <div className="flex justify-between">
+                                        <span className="text-black/60">Bill Generated Date:</span>
+                                        <span className="font-bold">{new Date(lastSale.billDate || lastSale.createdAt || lastSale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                    </div>
+                                )}
                                 <div className="flex justify-between">
                                     <span className="text-black/60">Customer:</span>
                                     <span className="font-bold">{(lastReturn || lastSale).customer?.name || "Walk-in"}</span>

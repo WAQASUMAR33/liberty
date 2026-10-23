@@ -161,7 +161,7 @@ export default function SalesPage() {
                         <thead>
                             <tr className="border-b border-black/5 bg-black/[0.01]">
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Bill #</th>
-                                <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Date</th>
+                                <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Dates</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Customer</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest">Type</th>
                                 <th className="px-6 py-4 text-xs font-bold text-foreground/40 uppercase tracking-widest text-right">Total</th>
@@ -189,12 +189,15 @@ export default function SalesPage() {
                             ) : filteredSales.map((sale: any) => (
                                 <tr key={sale.id} className="hover:bg-black/[0.02] transition-colors">
                                     <td className="px-6 py-4 font-mono font-bold">{sale.billNumber}</td>
-                                    <td className="px-6 py-4 text-sm">{new Date(sale.date).toLocaleDateString()}</td>
+                                    <td className="px-6 py-4 text-sm">
+                                        <div className="font-bold">{new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                                        <div className="text-[10px] text-foreground/50 font-medium tracking-tight">Gen: {new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                                    </td>
                                     <td className="px-6 py-4 font-medium">{sale.customer?.name || 'N/A'}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-3 py-1 rounded-none-none text-xs font-black uppercase tracking-widest ${sale.type === 'WHOLESALE'
-                                                ? 'bg-purple-500/10 text-purple-600 border border-purple-500/20'
-                                                : 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
+                                            ? 'bg-purple-500/10 text-purple-600 border border-purple-500/20'
+                                            : 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
                                             }`}>
                                             {sale.type}
                                         </span>
@@ -311,7 +314,8 @@ function reprintReceipt(sale: any) {
                 <div style="margin-top: 8px;">
                     <div>Invoice #: <strong>${sale.billNumber}</strong></div>
                     <div class="barcode-box">|||||||||||||||||||||||||</div>
-                    <div>Date: <strong>${new Date(sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                    <div>Invoice Date: <strong>${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                    <div>Bill Generated: <strong>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
                 </div>
             </div>
         </div>
@@ -335,11 +339,11 @@ function reprintReceipt(sale: any) {
             </thead>
             <tbody>
                 ${sale.items.map((item: any, i: number) => {
-                    const itemPrice = Number(item.price);
-                    const itemQty = Number(item.quantity);
-                    const itemDiscount = Number(item.discount || 0);
-                    const itemTotal = (itemPrice * itemQty) - itemDiscount;
-                    return `
+            const itemPrice = Number(item.price);
+            const itemQty = Number(item.quantity);
+            const itemDiscount = Number(item.discount || 0);
+            const itemTotal = (itemPrice * itemQty) - itemDiscount;
+            return `
                         <tr>
                             <td class="text-center">${i + 1}</td>
                             <td>${item.name}</td>
@@ -349,7 +353,7 @@ function reprintReceipt(sale: any) {
                             <td class="text-right">${itemTotal.toFixed(2)}</td>
                         </tr>
                     `;
-                }).join('')}
+        }).join('')}
             </tbody>
         </table>
 
@@ -408,7 +412,8 @@ function reprintReceipt(sale: any) {
     </div>
     <div class="divider"></div>
     <div class="info-row"><span>Receipt #:</span><span>${sale.billNumber}</span></div>
-    <div class="info-row"><span>Date:</span><span>${new Date(sale.date).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span></div>
+    <div class="info-row"><span>Invoice Date:</span><span>${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
+    <div class="info-row"><span>Bill Generated:</span><span>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
     <div class="info-row"><span>Customer:</span><span>${sale.customer?.name || 'Walk-in'}</span></div>
     <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
     <div class="divider"></div>
@@ -424,11 +429,11 @@ function reprintReceipt(sale: any) {
         </thead>
         <tbody>
             ${sale.items.map((item: any) => {
-                const itemPrice = Number(item.price);
-                const itemQty = Number(item.quantity);
-                const itemDiscount = Number(item.discount || 0);
-                const itemTotal = (itemPrice * itemQty) - itemDiscount;
-                return `
+        const itemPrice = Number(item.price);
+        const itemQty = Number(item.quantity);
+        const itemDiscount = Number(item.discount || 0);
+        const itemTotal = (itemPrice * itemQty) - itemDiscount;
+        return `
                     <tr>
                         <td style="text-align: left; word-break: break-word;">${item.name}</td>
                         <td class="text-center">${itemQty}</td>
@@ -437,7 +442,7 @@ function reprintReceipt(sale: any) {
                         <td class="text-right">${itemTotal.toFixed(2)}</td>
                     </tr>
                 `;
-            }).join('')}
+    }).join('')}
         </tbody>
     </table>
     <div class="divider"></div>
@@ -497,10 +502,14 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
 
                 <div className="flex-1 overflow-y-auto pr-2 space-y-6">
                     {/* Header Info */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-none-none bg-black/5">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-4 rounded-none-none bg-black/5">
                         <div>
-                            <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Date</p>
-                            <p className="font-bold">{new Date(sale.date).toLocaleDateString()}</p>
+                            <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Invoice Date</p>
+                            <p className="font-bold">{new Date(sale.invoiceDate || sale.date).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Bill Generated</p>
+                            <p className="font-bold">{new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString()}</p>
                         </div>
                         <div>
                             <p className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Customer</p>
@@ -586,7 +595,7 @@ function SaleDetailsModal({ sale, onClose }: { sale: any, onClose: () => void })
                         <Printer className="w-4 h-4" />
                         Reprint Receipt
                     </button>
-                    <button 
+                    <button
                         onClick={onClose}
                         className="px-6 py-3 rounded-none-none premium-gradient text-white font-bold hover:shadow-lg transition-all"
                     >
