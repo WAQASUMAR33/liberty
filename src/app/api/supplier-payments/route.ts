@@ -58,6 +58,9 @@ export async function POST(request: Request) {
             });
 
             return { payment, ledgerEntry, newBalance };
+        }, {
+            maxWait: 20000,
+            timeout: 30000,
         });
 
         return NextResponse.json(result);

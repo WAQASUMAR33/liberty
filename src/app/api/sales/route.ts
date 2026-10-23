@@ -89,13 +89,15 @@ export async function POST(request: Request) {
                 return sale;
             }
 
-            // 4. Update Product Stock
-            for (const item of items) {
-                await tx.product.update({
-                    where: { id: item.productId },
-                    data: { stock: { decrement: item.quantity } },
-                });
-            }
+            // 4. Update Product Stock (in parallel)
+            await Promise.all(
+                items.map((item: any) =>
+                    tx.product.update({
+                        where: { id: item.productId },
+                        data: { stock: { decrement: item.quantity } },
+                    })
+                )
+            );
 
             // 5. Update Customer Balance
             const updatedCustomer = await tx.customer.update({
@@ -117,7 +119,10 @@ export async function POST(request: Request) {
             });
 
             return sale;
-        }, { timeout: 15000 });
+        }, {
+            maxWait: 20000,
+            timeout: 30000,
+        });
 
         // Fetch complete sale data with relations
         const completeSale = await prisma.sale.findUnique({

@@ -661,11 +661,14 @@ function POSContent() {
                             </div>
                             <div class="invoice-title-box">
                                 <h2>SALE INVOICE</h2>
-                                <div style="margin-top: 8px;">
-                                    <div>Invoice #: <strong>${record.billNumber}</strong></div>
+                                <div style="margin-top: 6px;">
+                                    <div style="font-size: 13px;">Invoice #: <strong>${record.billNumber}</strong></div>
                                     <div class="barcode-box">|||||||||||||||||||||||||</div>
-                                    <div>Invoice Date: <strong>${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
-                                    <div>Bill Generated: <strong>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                                    <div style="border: 2px solid #000; background: #f1f5f9; padding: 5px 9px; margin: 5px 0; display: inline-flex; align-items: center; gap: 8px; text-align: right; -webkit-print-color-adjust: exact;">
+                                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #1e293b;">INVOICE DATE:</span>
+                                        <span style="font-size: 15px; font-weight: 900; color: #000; letter-spacing: 0.5px;">${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                    </div>
+                                    <div style="font-size: 10px; color: #475569; margin-top: 2px;">Bill Generated: <strong>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
                                 </div>
                             </div>
                         </div>
@@ -773,9 +776,12 @@ function POSContent() {
                     <p>0345 5754717 | 0546-506717</p>
                 </div>
                 <div class="divider"></div>
-                <div class="info-row"><span>Receipt #:</span><span>${record.billNumber}</span></div>
-                <div class="info-row"><span>Invoice Date:</span><span>${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
-                <div class="info-row"><span>Bill Generated:</span><span>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
+                <div class="info-row"><span>Receipt #:</span><strong>${record.billNumber}</strong></div>
+                <div style="border: 2px solid #000; background: #f0f0f0; padding: 4px 6px; margin: 4px 0; display: flex; justify-content: space-between; align-items: center; -webkit-print-color-adjust: exact;">
+                    <span style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;">INVOICE DATE:</span>
+                    <span style="font-size: 13px; font-weight: 900; color: #000; letter-spacing: 0.5px;">${new Date(record.invoiceDate || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                </div>
+                <div class="info-row" style="font-size: 9px; opacity: 0.85;"><span>Bill Generated:</span><span>${new Date(record.billDate || record.createdAt || record.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
                 <div class="info-row"><span>Customer:</span><span>${record.customer?.name || 'Walk-in'}</span></div>
                 <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
                 <div class="divider"></div>
@@ -1741,14 +1747,14 @@ function POSContent() {
                                     <span className="text-black/60">Receipt #:</span>
                                     <span className="font-bold">{lastReturn ? lastReturn.returnNumber : lastSale.billNumber}</span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span className="text-black/60">Invoice Date:</span>
-                                    <span className="font-bold">{new Date((lastReturn || lastSale).invoiceDate || (lastReturn || lastSale).date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                <div className="flex justify-between items-center px-2 py-1.5 bg-black/5 border border-black/15 my-1">
+                                    <span className="text-[11px] font-black uppercase text-foreground">Invoice Date:</span>
+                                    <span className="font-black text-sm text-foreground">{new Date((lastReturn || lastSale).invoiceDate || (lastReturn || lastSale).date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                 </div>
                                 {lastSale && (
-                                    <div className="flex justify-between">
-                                        <span className="text-black/60">Bill Generated Date:</span>
-                                        <span className="font-bold">{new Date(lastSale.billDate || lastSale.createdAt || lastSale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                    <div className="flex justify-between text-[11px] text-black/60">
+                                        <span>Bill Generated Date:</span>
+                                        <span className="font-semibold">{new Date(lastSale.billDate || lastSale.createdAt || lastSale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                     </div>
                                 )}
                                 <div className="flex justify-between">

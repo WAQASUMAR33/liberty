@@ -174,8 +174,8 @@ export default function DashboardLayout({
                 </header>
 
                 {/* Viewport Content */}
-                <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 relative custom-scrollbar">
-                    <div className="max-w-7xl mx-auto space-y-6">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-6 relative custom-scrollbar">
+                    <div className="w-full space-y-6">
                         {children}
                     </div>
                 </div>

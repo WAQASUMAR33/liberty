@@ -174,6 +174,9 @@ export async function POST(request: Request) {
             });
 
             return purchase;
+        }, {
+            maxWait: 20000,
+            timeout: 30000,
         });
 
         return NextResponse.json(result);

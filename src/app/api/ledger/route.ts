@@ -6,7 +6,7 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const customerId = searchParams.get("customerId");
         const sortBy = searchParams.get("sortBy") || "createdAt";
-        const sortOrder = (searchParams.get("sortOrder") || "asc") as "asc" | "desc";
+        const sortOrder = (searchParams.get("sortOrder") || "desc") as "asc" | "desc";
 
         if (!customerId) {
             return NextResponse.json({ error: "Customer ID is required" }, { status: 400 });

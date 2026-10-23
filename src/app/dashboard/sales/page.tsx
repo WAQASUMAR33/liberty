@@ -311,11 +311,14 @@ function reprintReceipt(sale: any) {
             </div>
             <div class="invoice-title-box">
                 <h2>SALE INVOICE</h2>
-                <div style="margin-top: 8px;">
-                    <div>Invoice #: <strong>${sale.billNumber}</strong></div>
+                <div style="margin-top: 6px;">
+                    <div style="font-size: 13px;">Invoice #: <strong>${sale.billNumber}</strong></div>
                     <div class="barcode-box">|||||||||||||||||||||||||</div>
-                    <div>Invoice Date: <strong>${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
-                    <div>Bill Generated: <strong>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
+                    <div style="border: 2px solid #000; background: #f1f5f9; padding: 5px 9px; margin: 5px 0; display: inline-flex; align-items: center; gap: 8px; text-align: right; -webkit-print-color-adjust: exact;">
+                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #1e293b;">INVOICE DATE:</span>
+                        <span style="font-size: 15px; font-weight: 900; color: #000; letter-spacing: 0.5px;">${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    </div>
+                    <div style="font-size: 10px; color: #475569; margin-top: 2px;">Bill Generated: <strong>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></div>
                 </div>
             </div>
         </div>
@@ -411,9 +414,12 @@ function reprintReceipt(sale: any) {
         <p>0345 5754717 | 0546-506717</p>
     </div>
     <div class="divider"></div>
-    <div class="info-row"><span>Receipt #:</span><span>${sale.billNumber}</span></div>
-    <div class="info-row"><span>Invoice Date:</span><span>${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
-    <div class="info-row"><span>Bill Generated:</span><span>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
+    <div class="info-row"><span>Receipt #:</span><strong>${sale.billNumber}</strong></div>
+    <div style="border: 2px solid #000; background: #f0f0f0; padding: 4px 6px; margin: 4px 0; display: flex; justify-content: space-between; align-items: center; -webkit-print-color-adjust: exact;">
+        <span style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;">INVOICE DATE:</span>
+        <span style="font-size: 13px; font-weight: 900; color: #000; letter-spacing: 0.5px;">${new Date(sale.invoiceDate || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+    </div>
+    <div class="info-row" style="font-size: 9px; opacity: 0.85;"><span>Bill Generated:</span><span>${new Date(sale.billDate || sale.createdAt || sale.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span></div>
     <div class="info-row"><span>Customer:</span><span>${sale.customer?.name || 'Walk-in'}</span></div>
     <div class="info-row"><span>Cashier:</span><span>Admin</span></div>
     <div class="divider"></div>

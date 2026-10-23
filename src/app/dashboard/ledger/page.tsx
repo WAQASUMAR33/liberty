@@ -59,7 +59,7 @@ function LedgerContent() {
 
     // Sorting & Filtering
     const [sortBy, setSortBy] = useState<"createdAt" | "date">("createdAt");
-    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [filterType, setFilterType] = useState<"ALL" | "SALE" | "PAYMENT" | "RETURN">("ALL");
@@ -75,7 +75,7 @@ function LedgerContent() {
                 const list = Array.isArray(data) ? data : [];
                 setCustomers(list);
 
-                // Auto-select if specified in query or if querySearch matches
+                // Auto-select if specified in query, querySearch matches, or default to first customer
                 if (queryCustomerId) {
                     const match = list.find((c: any) => c.id === queryCustomerId);
                     if (match) {
@@ -88,6 +88,10 @@ function LedgerContent() {
                         setSelectedCustomerId(match.id);
                         setCustomerSearch(match.name);
                     }
+                } else if (list.length > 0) {
+                    // Default to showing the first customer's ledger immediately
+                    setSelectedCustomerId(list[0].id);
+                    setCustomerSearch(list[0].name);
                 }
             })
             .catch(console.error);
@@ -385,7 +389,7 @@ function LedgerContent() {
                     <div class="header-right">
                         <h2>Account Statement</h2>
                         <p>Statement Date: <strong>${new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</strong></p>
-                        <p>Audit Sequence: <strong>Chronological (Created Date)</strong></p>
+                        <p>Audit Sequence: <strong>${sortOrder === 'desc' ? 'Descending (Newest First)' : 'Ascending (Oldest First)'}</strong></p>
                     </div>
                 </div>
 
@@ -490,7 +494,7 @@ function LedgerContent() {
     };
 
     return (
-        <div className="space-y-6 max-w-[1600px] mx-auto pb-12">
+        <div className="space-y-6 w-full pb-12">
             {/* Top Header Banner */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-black/5 pb-5">
                 <div>
@@ -935,7 +939,7 @@ function LedgerContent() {
                                 </span>
                             </div>
                             <div className="text-[11px] font-medium text-foreground/40 flex items-center gap-2">
-                                <span>Sorted by: <strong className="text-foreground">{sortBy === "createdAt" ? "Created Date & Time" : "Invoice Document Date"}</strong></span>
+                                <span>Sorted by: <strong className="text-foreground">{sortBy === "createdAt" ? "Created Date & Time" : "Invoice Document Date"} ({sortOrder === "desc" ? "Newest First" : "Oldest First"})</strong></span>
                             </div>
                         </div>
 

@@ -97,7 +97,10 @@ export async function POST(request: Request) {
             });
 
             return saleReturn;
-        }, { timeout: 15000 });
+        }, {
+            maxWait: 20000,
+            timeout: 30000,
+        });
 
         // Fetch complete return record with details
         const completeReturn = await prisma.saleReturn.findUnique({

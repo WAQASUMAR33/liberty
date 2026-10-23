@@ -57,7 +57,10 @@ export async function POST(request: Request) {
                 where: { id: payment.id },
                 include: { customer: true }
             });
-        }, { timeout: 15000 });
+        }, {
+            maxWait: 20000,
+            timeout: 30000,
+        });
 
         return NextResponse.json(result);
     } catch (error: any) {
